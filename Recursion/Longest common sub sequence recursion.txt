@@ -1,0 +1,106 @@
+class Solution
+{
+    //Function to find the length of longest common subsequence in two strings.
+    static int lcs(int x, int y, String s1, String s2)
+    {
+        if(x==0 || y==0)
+        {
+            return 0;
+        }
+        
+        if(s1.charAt(x-1)==s2.charAt(y-1))
+        {
+            return 1 + lcs(x-1,y-1,s1,s2);
+        }
+        else
+        {
+            return max( lcs(x,y-1,s1,s2) , lcs(x-1,y,s1,s2) );
+        }
+    }
+    public static int max(int a,int b)
+    {
+        return (a > b ? a : b);
+    }
+}
+// memoziation
+class Solution
+{
+    static int[][] dp= new int[1000+1][1000+1];
+    static int solveLcs(int x,int y,String s1,String s2)
+    {
+        if(x==0 || y==0)
+        {
+            return 0;
+        }
+        if(dp[x][y] != -1)
+        {
+            return dp[x][y];
+        }
+        if(s1.charAt(x-1) == s2.charAt(y-1))
+        {
+            dp[x][y] = 1 + solveLcs(x-1,y-1,s1,s2);
+            return dp[x][y];
+        }
+        else
+        {
+            dp[x][y]= max( solveLcs(x,y-1,s1,s2) , solveLcs(x-1,y,s1,s2));
+            return dp[x][y];
+        }
+        
+    }
+    public static int max(int a,int b)
+    {
+        return (a > b ? a : b);
+    }
+    //Function to find the length of longest common subsequence in two strings.
+    static int lcs(int x, int y, String s1, String s2)
+    {
+        for(int i=0; i<x+1; i++)
+        {
+            for(int j=0; j<y+1; j++)
+            {
+                dp[i][j]= -1;
+            }
+        }
+        return solveLcs(x,y,s1,s2);
+    }   
+}
+//Tc- O(n*m)
+
+//Top - down approach
+class Solution
+{
+    //Function to find the length of longest common subsequence in two strings.
+    static int lcs(int x, int y, String s1, String s2)
+    {
+        int[][] dp =new int[x+1][y+1];
+        for(int i=0; i<x+1; i++)
+        {
+            for(int j=0; j<y+1; j++)
+            {
+                if(i==0 || j==0)
+                {
+                    dp[i][j]=0;
+                }
+            }
+        }
+        
+        for(int i=1; i<x+1; i++)
+        {
+            for(int j=1; j<y+1; j++)
+            {
+                if(s1.charAt(i-1)==s2.charAt(j-1))
+                {
+                    dp[i][j]= 1 + dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j]= Math.max( dp[i-1][j] , dp[i][j-1]);
+                } 
+            }
+        }
+        return dp[x][y];
+    }
+    
+}
+//TC- O(n*m); 
