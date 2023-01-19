@@ -1,0 +1,47 @@
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    class TreeNode<T>
+    {
+       public:
+        T data;
+        TreeNode<T> left;
+        TreeNode<T> right;
+
+        TreeNode(T data)
+        {
+            this.data = data;
+            left = null;
+            right = null;
+        }
+    };
+
+************************************************************/
+
+//ceil- smallest number which is greater than the key.
+public class Solution {
+
+    public  static int findCeil(TreeNode<Integer> root, int key) {
+        int ceil= -1;
+        
+        while(root!=null)
+        {
+            if(root.data == key)
+            {
+                return key;
+            }
+            
+            if(key>root.data)
+            {
+                root= root.right;
+            }
+            else
+            {
+                ceil= root.data;
+                root= root.left;
+            }
+        }
+        return ceil;
+    }
+}
