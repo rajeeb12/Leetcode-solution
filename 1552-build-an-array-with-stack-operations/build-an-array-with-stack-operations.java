@@ -1,24 +1,19 @@
 class Solution {
     public List<String> buildArray(int[] target, int n) {
-        Stack<Integer> st= new Stack<>();
-        HashSet<Integer> set= new HashSet<>();
         List<String> ans = new ArrayList<>();
 
-        for(int i: target){
-            set.add(i);
-        }
+        int stream = 1 , index = 0;
 
-        for(int num = 1 ; num <= n; num++){
-            st.add(num);
+        while(index < target.length && stream <= n){
             ans.add("Push");
-            if(!set.contains(num)){
-                st.pop();
+            if(stream != target[index]){
                 ans.add("Pop");
+                stream++;
+            }else{
+                stream++;
+                index++;
             }
-            if(st.size() == target.length){
-                break;
-            }
-        }
+        } 
         return ans;
     }
 }
