@@ -4,6 +4,7 @@ class Solution {
         long second =  Long.MIN_VALUE;
         long third = Long.MIN_VALUE;
         int count = 0;
+        // dry run - [1,2,2,5,3,5] 
         for(int i = 0 ; i < nums.length ; i++){
             if(nums[i] == first || nums[i] == second || nums[i] == third) continue;
             if(nums[i] > first){
