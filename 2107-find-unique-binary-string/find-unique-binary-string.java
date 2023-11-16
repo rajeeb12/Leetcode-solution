@@ -1,41 +1,23 @@
 class Solution {
     public String findDifferentBinaryString(String[] nums) {
-        if(nums.length == 0) return "";
-        ArrayList<String> list = new ArrayList<>();
-        HashSet<String> set = new HashSet<>();
-        for(String str : nums){
-            set.add(str);
-        } 
         int n = nums.length;
-        generateStrings(n,"",list);
-        for(String str : list){
-            if(!set.contains(str)){
-                return str;
+        HashSet<Integer> set = new HashSet<>();
+        for(String str : nums){
+            set.add(Integer.parseInt(str, 2)); 
+            // convert string  -> binary int , int -> decimal 
+        }
+
+        String result= "";
+        for(int i = 0 ; i <= 65536; i++){
+            if(!set.contains(i)){
+                result = Integer.toBinaryString(i); //convert the int -> binary int, binary int -> string
+
+                while(result.length() < n){
+                    result = '0' + result;
+                }
+                return result;
             }
         }
-
-        // String result ="";
-        // for(int i = 0 ; i < list.size() ; i++){
-        //     String str = list.get(i);
-        //     boolean exist = false;
-        //     for(int j = 0 ; j < n ; j++){
-        //         if(str.equals(nums[j])){
-        //             exist = true;
-        //         }
-        //     }
-        //     if(!exist){
-        //         result = str;
-        //     }
-        // }
         return "";
-    }
-    public void generateStrings(int n,String str,ArrayList<String> list){
-        if(n == str.length()){
-            list.add(str);
-            return;
-        }
-
-        generateStrings(n, str + '0', list);
-        generateStrings(n, str + '1', list);
     }
 }
