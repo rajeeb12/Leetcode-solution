@@ -8,7 +8,7 @@ class Solution {
         }
 
         String result= "";
-        for(int i = 0 ; i <= 65536; i++){
+        for(int i = 0 ; i <= n; i++){
             if(!set.contains(i)){
                 result = Integer.toBinaryString(i); //convert the int -> binary int, binary int -> string
 
