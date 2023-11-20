@@ -14,36 +14,20 @@
  * }
  */
 class Solution {
+    // only using recurion
     public TreeNode bstFromPreorder(int[] preorder) {
-        TreeNode root = new TreeNode(preorder[0]);
-        
-        for(int i = 1 ; i < preorder.length; i++){
-            TreeNode node = new TreeNode(preorder[i]);
-            insertIntoBST(root, node);
-        }
-        return root;
-        
+        if(preorder.length == 0) return null;
+        return construct(Integer.MAX_VALUE,new int[]{0},preorder);
     }
-    public TreeNode insertIntoBST(TreeNode root, TreeNode node){
-        
-        TreeNode cur = root;
-        TreeNode prev = null;
-        while(cur != null){
-            if(cur.val < node.val){
-                prev = cur;
-                cur = cur.right;
-            }
-            else{
-                prev = cur;
-                cur = cur.left; 
-            }
+    public TreeNode construct(int upperBound,int index[],int[] preorder)
+    {
+        if(index[0] == preorder.length || preorder[index[0]] > upperBound){
+            return null;
         }
-        if(prev.val > node.val){
-            prev.left = node;
-        }
-        else{
-            prev.right = node;
-        }
-        return root;
+
+        TreeNode node= new TreeNode(preorder[index[0]++]);
+        node.left = construct(node.val,index,preorder);
+        node.right = construct(upperBound,index,preorder);
+        return node;
     }
 }
