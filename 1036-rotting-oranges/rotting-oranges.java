@@ -42,10 +42,10 @@ class Solution {
                     }
                 }
             }
-            if(!q.isEmpty()) minTime++;
+            minTime++;
         }
         System.out.print(rotten +""+countOranges);
-        return (rotten == countOranges ? minTime : -1);
+        return (rotten == countOranges ? minTime - 1 : -1);
 
     }
 }
