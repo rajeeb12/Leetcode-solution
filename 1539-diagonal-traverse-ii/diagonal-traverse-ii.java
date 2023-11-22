@@ -1,26 +1,27 @@
 class Solution {
     public int[] findDiagonalOrder(List<List<Integer>> nums) {
-        TreeMap<Integer, ArrayList<Integer>> map= new TreeMap<>();
+        Queue<int[]> q= new LinkedList<>();
+        q.add(new int[]{0,0});
+        ArrayList<Integer> list= new ArrayList<>();
         int n = nums.size();
-        int totalElement = 0;
-        for(int i = n-1 ; i >= 0; i--){
-            int m = nums.get(i).size();
-            for(int j = 0 ; j < m ; j++){
-                int sumOfindexes = i + j;
 
-                if(!map.containsKey(sumOfindexes)){
-                    map.put(sumOfindexes, new ArrayList<>());
-                }
-                map.get(sumOfindexes).add(nums.get(i).get(j));
+        while(!q.isEmpty())
+        {
+            int temp[]= q.poll();
+            int x = temp[0];
+            int y = temp[1];
+            list.add(nums.get(x).get(y));
+
+            if(y == 0 && x + 1 < n){
+                q.add(new int[]{x + 1, y});
             }
-            totalElement += m;
+           
+            if(y + 1 < nums.get(x).size()) q.add(new int[]{x , y + 1});
         }
-        int index = 0;
-        int ans[]= new int[totalElement];
-        for(ArrayList<Integer> item: map.values()){
-            for(int el: item){
-                ans[index++] = el;
-            }
+        int ans[]= new int[list.size()];
+        for(int i = 0 ; i < list.size() ; i++)
+        {
+            ans[i] = list.get(i);
         }
         return ans;
     }
