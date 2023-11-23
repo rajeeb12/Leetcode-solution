@@ -1,36 +1,25 @@
 class Solution {
     public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
-        List<Boolean>  res= new ArrayList<>();
-        
-        int m=l.length;
-        
-        for(int i=0; i<m; i++)
-        {
-            int a1=l[i];
-            int a2=r[i];
-            ArrayList<Integer> list= new ArrayList<>();
-            for(int j=a1; j<=a2; j++)
-            {
-                list.add(nums[j]);
+        List<Boolean> ans = new ArrayList<>();
+        int n = l.length; 
+        for(int i = 0 ; i < n ; i++){
+            ArrayList<Integer> temp = new ArrayList<>();
+
+            for(int index = l[i] ; index <= r[i] ; index++){
+                temp.add(nums[index]);
             }
-            res.add(check(list));
-        }
-        return res;
-    }
-    public static boolean check(ArrayList<Integer> list)
-    {
-        Collections.sort(list);
-        int c_diff= list.get(0)-list.get(1);
-        boolean flag =true;
-        for(int i=1; i<list.size(); i++)
-        {
-            int diff= list.get(i-1)-list.get(i);
-            if(diff!=c_diff)
-            {
-                flag=false;
-                break;
+            Collections.sort(temp);
+            
+            int diff= temp.get(0) - temp.get(1);
+            boolean flag = true;
+            for(int index = 1 ; index < temp.size()-1 ; index++){
+                if(temp.get(index) - temp.get(index + 1) != diff){
+                    flag = false;
+                    break;
+                }
             }
+            ans.add(flag);
         }
-        return flag;
+        return ans;
     }
 }
