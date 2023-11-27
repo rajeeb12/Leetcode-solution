@@ -2,12 +2,9 @@ class Solution {
     int dp[][];
     int mod = (int)1e9 + 7;
     public int knightDialer(int n) {
+        if(n == 1) return 10;
         dp = new int[n+1][10];
-        for(int row[]: dp)
-        {
-            Arrays.fill(row,  -1);
-        }
-        int[][] moves =  
+        int[][] adj =  
         {
             {4,6},
             {6,8},
@@ -21,10 +18,23 @@ class Solution {
             {2,4},
         };
         int ans = 0;
-
-        for(int cell = 0 ; cell <= 9; cell++)
+        for(int cell = 0; cell <= 9; cell++)
         {
-            ans = (ans + solve(n-1,cell,moves)) % mod;
+            dp[0][cell] = 1; 
+        }
+        
+        for(int len = 1; len < n ; len++)
+        {
+            for(int cell = 0 ; cell <= 9; cell++)
+            {
+                int result = 0;
+                for(int adjCell : adj[cell]){
+                    result = (result + dp[len - 1][adjCell]) % mod;
+                }
+                dp[len][cell] = result;
+
+                ans = (ans + dp[n-1][cell]) % mod;
+            }
         }
         return ans;
     }
