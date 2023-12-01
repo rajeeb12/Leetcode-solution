@@ -25,11 +25,7 @@ class Solution {
                 }
             }
         }
-        String res = "";
-        for(char ch: arr)
-        {
-            res += ch;
-        }
+        String res = new String(arr);
         return res;
     }
     public boolean isVowel(char ch )
