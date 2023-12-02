@@ -9,17 +9,12 @@ class Solution {
 
         for(String str: words)
         {
-            HashMap<Character,Integer> map2 = new HashMap<>();
+            int arr[]= new int[26];
+            boolean isGood = true;
             for(char ch: str.toCharArray())
             {
-                map2.put(ch, map2.getOrDefault(ch,0) + 1);
-            }
-            boolean isGood = true;
-            for(Map.Entry<Character,Integer> entry: map2.entrySet())
-            {
-                char ch = entry.getKey();
-                int value = entry.getValue();
-                if(!map.containsKey(ch) || !(map.get(ch) >= value))
+                arr[ch - 'a']++;
+                if(!map.containsKey(ch) || !(map.get(ch) >= arr[ch-'a']))
                 {
                     isGood = false;
                     break;
