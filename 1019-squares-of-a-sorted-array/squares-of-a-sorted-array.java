@@ -7,7 +7,7 @@ class Solution {
 
         for(int i = n - 1; i >= 0 ; i--)
         {
-            if(Math.abs(nums[right]) > Math.abs(nums[left]))
+            if(Math.abs(nums[right]) > Math.abs(nums[left])) // right && left convertig to +ve then checking 
             {
                 ans[i] = nums[right] * nums[right];
                 right--;
