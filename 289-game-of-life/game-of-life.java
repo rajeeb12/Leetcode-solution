@@ -1,4 +1,6 @@
 class Solution {
+    int die = 2;
+    int live = 3;
     public void gameOfLife(int[][] board) {
         int n = board.length;
         int m = board[0].length;
@@ -17,7 +19,7 @@ class Solution {
                         int nextCol = col + dj;
                         if(isValid(nextRow, nextCol,n,m))
                         {
-                            if(board[nextRow][nextCol] == 1)
+                            if(board[nextRow][nextCol] == 1 || board[nextRow][nextCol] == die)
                             {
                                 count++;
                             }
@@ -28,7 +30,7 @@ class Solution {
                 {
                     if(count == 3)
                     {
-                        ans[row][col] = 1;
+                        board[row][col] = live;
                     }
                 }
                 else if(board[row][col] == 1) 
@@ -36,15 +38,15 @@ class Solution {
                     count--;
                     if(count < 2)
                     {
-                        ans[row][col] = 0;
+                        board[row][col] = die;
                         continue;
                     }
                     if(count > 3)
                     {
-                        ans[row][col] = 0;
+                        board[row][col] = die;
                         continue;
                     }
-                    ans[row][col] = 1;
+                    board[row][col] = 1;
                 }
             }
         }
@@ -52,7 +54,8 @@ class Solution {
         {
           for(int j = 0 ; j < m ; j++)
           {
-            board[i][j] = ans[i][j];
+            if(board[i][j] == 2) board[i][j] = 0;
+            if(board[i][j] == 3) board[i][j] = 1;
           }
         }
     }
