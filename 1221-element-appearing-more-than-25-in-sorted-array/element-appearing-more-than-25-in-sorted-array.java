@@ -1,16 +1,16 @@
 class Solution {
     public int findSpecialInteger(int[] arr) {
-        HashMap<Integer,Integer> map = new HashMap<>();
-        int n =  arr.length / 4;
+        int n = arr.length;
 
-        for(int i: arr){
-            map.put(i, map.getOrDefault(i, 0) + 1);
-        }
+        int freq = n / 4;
 
-        for(Map.Entry<Integer,Integer> entry: map.entrySet())
+        for(int i = 0 ; i < n ; i++)
         {
-            if(entry.getValue() > n) return entry.getKey();
-        }
+            if(arr[i] == arr[i + freq])
+            {
+                return arr[i];
+            }
+        } 
         return -1;
     }
 }
