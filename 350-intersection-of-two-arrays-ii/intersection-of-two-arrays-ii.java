@@ -1,27 +1,19 @@
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        HashMap<Integer,Integer> map1 = new HashMap<>();
-        HashMap<Integer,Integer> map2 = new HashMap<>();
+        if(nums1.length < nums2.length) return intersect(nums2, nums1);
+        HashMap<Integer,Integer> map = new HashMap<>();
 
         for(int i : nums1)
         {
-            map1.put(i, map1.getOrDefault(i, 0) + 1);
+            map.put(i, map.getOrDefault(i, 0) + 1);
         }
-        for(int i : nums2)
-        {
-            map2.put(i, map2.getOrDefault(i, 0) + 1);
-        }
+        
         ArrayList<Integer> ans = new ArrayList<>();
-        for(Map.Entry<Integer,Integer> entry: map1.entrySet()){
-            int key = entry.getKey();
-            if(map2.containsKey(key))
+        for(int item: nums2){
+            if(map.containsKey(item) &&  map.get(item) > 0)
             {
-                int minDuplicates =  Math.min(entry.getValue(), map2.get(key));
-
-                for(int i = 0 ; i < minDuplicates; i++)
-                {
-                    ans.add(key);
-                }
+                ans.add(item);
+                map.put(item, map.get(item) - 1);
             }
         }
         int res[]= new int[ans.size()];
