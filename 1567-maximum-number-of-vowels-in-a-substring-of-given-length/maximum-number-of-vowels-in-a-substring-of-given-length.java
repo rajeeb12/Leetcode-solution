@@ -4,28 +4,20 @@ class Solution {
         int count = 0;
         int left = 0, right = 0;
         int size = s.length();
-        while(right < k)
+        for(int i = 0 ; i < size; i++)
         {
-            if(check(s.charAt(right)))
+            if(check(s.charAt(i)))
             {
                 count++;
             }
-            right++;
-        }
-        max = Math.max(max, count);
-        while(right < size)
-        {
-            if(check(s.charAt(left)))
+            if(i >= k)
             {
-                count--;
-            }
-            if(check(s.charAt(right)))
-            {
-                count++;
+                if(check(s.charAt( i - k)))
+                {
+                    count--;
+                }
             }
             max = Math.max(max, count);
-            left++;
-            right++;
         }
         return max;
     }
