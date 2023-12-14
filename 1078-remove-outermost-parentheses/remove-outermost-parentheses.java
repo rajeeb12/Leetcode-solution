@@ -1,19 +1,22 @@
 class Solution {
     public String removeOuterParentheses(String s) {
-        // using counter when ( hua hai toh +1 else -1
+        int count = 0;
+        int start = 0;
+        String res = "";
 
-        String res ="";
-        int count = 0, si= 0;
-
-        for(int i = 0 ; i < s.length() ; i++){
-            if(s.charAt(i) == '('){
+        for(int i = 0 ; i < s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            if(ch == '(')
+            {
                 count++;
             }else{
                 count--;
             }
-            if(count == 0){
-                res += s.substring(si + 1, i);
-                si = i + 1;
+            if(count == 0)
+            {
+                res += s.substring(start + 1, i);
+                start = i + 1;
             }
         }
         return res;
