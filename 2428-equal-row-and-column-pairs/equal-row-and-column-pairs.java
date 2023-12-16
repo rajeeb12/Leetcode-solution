@@ -3,25 +3,27 @@ class Solution {
         int ans = 0;
         int n = grid.length;
         int m = grid[0].length; 
+        HashMap<String, Integer> map = new HashMap<>();
 
         for(int row[]: grid)
         {
-            for(int i = 0 ; i < m; i++)
+            String str = "";
+            for(int i: row)
             {
-                int count = 0;
-                for(int j = 0 ; j < n ; j++)
-                {
-                    if(row[j] == grid[j][i])
-                    {
-                        count++;
-                    }
-                    else{
-                        break;
-                    }
-                }
-                if(count == row.length){
-                    ans++;
-                }
+                str =str + i +",";
+            }
+            map.put(str, map.getOrDefault(str,0) + 1);
+        }
+        for(int i = 0 ; i < m ; i++)
+        {
+            String str ="";
+            for(int j = 0 ; j < n; j++)
+            {
+                str += grid[j][i] +",";
+            }
+            if(map.containsKey(str))
+            {
+                ans += map.get(str);
             }
         }
         return ans;
