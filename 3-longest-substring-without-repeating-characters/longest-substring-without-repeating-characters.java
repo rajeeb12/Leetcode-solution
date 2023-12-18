@@ -16,6 +16,7 @@ class Solution {
                 while(map.get(ch) > 1 && left < right)
                 {
                     map.put(s.charAt(left), map.get(s.charAt(left)) - 1);
+                    if(map.get(s.charAt(left)) == 0) map.remove(s.charAt(left));
                     left++;
                 }
             }
