@@ -17,8 +17,8 @@ class Solution {
             arr[i] = new Pair(position[i], sp[i]);
         }   
         Arrays.sort(arr, (a,b) -> a.pos - b.pos);
-
-        Stack<Double> st = new Stack<>();
+        double max = 0;
+        int fleet = 0;
         for(int i = size-1; i >= 0 ; i--)
         {
             Pair p = arr[i];
@@ -26,13 +26,12 @@ class Solution {
             int speed = p.speed;
 
             double cal = (double) (target - pos) / speed;
-            if(!st.isEmpty() && cal <= st.peek())
+            if(max < cal)
             {
-                continue;
-            }else{
-                st.add(cal);
+                fleet++;
+                max = cal;
             }
         }
-        return st.size();
+        return fleet;
     }
 }
