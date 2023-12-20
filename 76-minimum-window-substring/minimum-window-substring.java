@@ -17,37 +17,29 @@ class Solution {
             if(!map.containsKey(ch)) continue;
 
             map.put(ch, map.get(ch) - 1);
-                     
             int frequency = map.get(ch);
+
             if(frequency == 0) count--;
 
-            if(count == 0)
+            for(left = left ; count == 0 && left <= right ; left++)
             {
-                while(count == 0 && left <= right)
-                {
-                   int currSize = right - left + 1;
-                   if(currSize < size)
-                   {
-                       size = currSize;
-                       start = left;
-                       end = right;
-                   }
-                   char leftCh = s.charAt(left);
-                   if(map.containsKey(leftCh))
-                   {
-                       map.put(leftCh, map.get(leftCh) + 1);
-                   }
-                   else{
-                       left++;
-                       continue;
-                   }
-                   int freq = map.get(leftCh);
-                   if(freq > 0)
-                   {
-                       count++;
-                   }
-                   left++;
-                }
+               int currSize = right - left + 1;
+               if(currSize < size)
+               {
+                   size = currSize;
+                   start = left;
+                   end = right;
+               }
+               char leftCh = s.charAt(left);
+               if(map.containsKey(leftCh))
+               {
+                    map.put(leftCh, map.get(leftCh) + 1);
+                    int freq = map.get(leftCh);
+                    if(freq > 0)
+                    {
+                        count++;
+                    }
+               }
             }
         }
         return ((start == -1 || end == -1) ? "" : s.substring(start , end + 1));
