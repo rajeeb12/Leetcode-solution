@@ -1,18 +1,25 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        HashMap<Integer,Integer> map = new HashMap<>();
-        int ans = 0;
+        return solve(nums, goal) - solve(nums, goal - 1);
+    }
+    // subarraycount(goal1 + goal2) - subarraycount(goal1) => goal2
+    public int solve(int nums[], int goal)
+    {
         int sum = 0;
-        map.put(0,1);
-        for(int i: nums)
+        int count = 0;
+        int i = 0;
+        for(int j = 0 ; j < nums.length; j++)
         {
-            sum += i;
-            if(map.containsKey(sum - goal))
+            sum += nums[j];
+
+            while(i <= j && sum > goal)
             {
-                ans += map.get(sum - goal);
+                sum -= nums[i];
+                i++;
             }
-            map.put(sum, map.getOrDefault(sum , 0 ) + 1);
-        }
-        return ans;
+
+            count += (j - i + 1);
+        } 
+        return count;
     }
 }
