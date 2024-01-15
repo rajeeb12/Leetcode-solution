@@ -1,40 +1,39 @@
 class Solution {
     public List<List<Integer>> findWinners(int[][] matches) {
-        HashMap<Integer,Integer> wMap = new HashMap<>();
-        HashMap<Integer,Integer> lMap = new HashMap<>();
+        int losses[] = new int[100001];
+
         for(int i[]: matches)
         {
             int w = i[0];
             int l = i[1];
-            wMap.put(w, wMap.getOrDefault(w, 0) + 1);
-            if(!lMap.containsKey(w)) lMap.put(w,0);
 
-            lMap.put(l, lMap.getOrDefault(l, 0) + 1);
-            if(!wMap.containsKey(l)) wMap.put(l,0);
-        }
-        List<Integer> won = new ArrayList<>();
-        List<Integer> loss = new ArrayList<>();
-
-        for(Map.Entry<Integer,Integer> entry: wMap.entrySet())
-        {
-            int key = entry.getKey();
-            int totalWon = entry.getKey();
-            int totalLoss = lMap.get(key);
-
-            if(totalWon > 0  && totalLoss == 0)
+            if(losses[w] == 0) // first time won
             {
-                won.add(key);
-            }else if((totalWon > 0 || totalWon == 0) && totalLoss == 1)
+                losses[w] = -1;
+            }
+
+            if(losses[l] == -1) // lossing first time;
             {
-                loss.add(key);
+                losses[l] = 1;
+            }else{
+                losses[l]++;
             }
         }
-        Collections.sort(won);
-        Collections.sort(loss);
-
+        List<Integer> won = new ArrayList<>();
+        List<Integer> lost = new ArrayList<>();
+        for(int i = 1; i < losses.length; i++)
+        {
+            if(losses[i] == -1)
+            {
+                won.add(i);
+            }else if(losses[i] == 1) // lost only once
+            {
+                lost.add(i);
+            }
+        }
         List<List<Integer>> ans = new ArrayList<>();
         ans.add(new ArrayList<>(won));
-        ans.add(new ArrayList<>(loss));
+        ans.add(new ArrayList<>(lost));
         return ans;
     }
 }
