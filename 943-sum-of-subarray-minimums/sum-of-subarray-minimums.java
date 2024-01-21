@@ -2,42 +2,39 @@ class Solution {
     public int sumSubarrayMins(int[] arr) {
         int mod = (int)1e9 + 7;
         int n = arr.length;
-        long ans = 0;
-
-        int left[] = new int[n]; // storing prev smaller element index 
-        int right[] = new int[n]; // storing next smaller element index
+        int nle[] = new int[n];
+        int ple[] = new int[n];
         
-        Stack<Integer> st1 = new Stack<>();
-        Stack<Integer> st2 = new Stack<>();
-
-        for(int i = 0 ; i < n; i++)
+        //Ple
+        Stack<Integer> st = new Stack<>();
+        for(int i = 0 ; i < n ; i++)
         {
-            while(!st1.isEmpty() && arr[st1.peek()] >= arr[i])
+            while(!st.isEmpty() && arr[st.peek()] >= arr[i])
             {
-                st1.pop();
-            }
-            left[i] = st1.isEmpty() == true ? -1 : st1.peek();
+                st.pop();
+            } 
+            ple[i] = (st.isEmpty() == true ? -1 : st.peek());
 
-            st1.add(i);
+            st.add(i);
         }
-        for(int i = n-1 ; i >= 0; i--)
+        Stack<Integer> st2= new Stack<>();
+
+        for(int i = n - 1; i >= 0 ; i--)
         {
             while(!st2.isEmpty() && arr[st2.peek()] > arr[i])
             {
                 st2.pop();
             }
-            right[i] = st2.isEmpty() == true ? n : st2.peek();
-
+            nle[i] = (st2.isEmpty() ==true ? n : st2.peek());
             st2.add(i);
         }
-
+        long ans = 0;
         for(int i = 0 ; i < n ; i++)
         {
-            long l = i - left[i];
-            long r = right[i] - i;
-            long prod = (arr[i] * l * r) % mod;
-            ans = (ans + prod) % mod;
+            long l = i - ple[i];
+            long r = nle[i] - i;
+            ans = (ans + (arr[i] * l * r) % mod) % mod; 
         }
-        return (int) ans ;
+        return (int) ans;
     }
 }
