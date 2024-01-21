@@ -1,24 +1,25 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList<>();
-        solve("",0,0,n, ans);
+        helper("",n,0 ,0 ,ans);
         return ans;
     }
-    public void solve(String str,int open,int close,int n,List<String> ans)
+    public void helper(String str, int maxOpenBracket,int open,int close, List<String> ans)
     {
-        if(str.length() == (2 * n))
+        if(str.length() == 2 * maxOpenBracket)
         {
             ans.add(str);
             return;
         }
 
-        if(open < n)
+        if(open < maxOpenBracket)
         {
-            solve(str + "(", open + 1, close, n, ans);
+            helper(str+ "(", maxOpenBracket, open + 1,close,ans);
         }
         if(close < open)
         {
-            solve(str + ")" , open , close + 1,n , ans);
+            helper(str + ")" , maxOpenBracket, open, close + 1, ans);
         }
     }
+
 }
