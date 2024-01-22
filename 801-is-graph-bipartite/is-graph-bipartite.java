@@ -1,48 +1,58 @@
 class Solution {
     public boolean isBipartite(int[][] graph) {
-        ArrayList<ArrayList<Integer>> adj= new ArrayList<>();
-        int n= graph.length;
-        for(int i = 0 ; i < n ; i++)
+        int  n = graph.length;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+
+        for(int i= 0 ; i < n ; i++)
         {
             adj.add(new ArrayList<>());
         }
-        int colorArray[]= new int[n];
         for(int i = 0 ; i < n ; i++)
         {
-            int m = graph[i].length;
-            for(int j = 0 ; j < m ;j++)
+            for(int j = 0 ; j < graph[i].length; j++)
             {
-                adj.get(i).add(graph[i][j]);
+                int u = i;
+                int v = graph[i][j];
+                adj.get(u).add(v);
+                adj.get(v).add(u);
             }
         }
-        Arrays.fill(colorArray, -1);
-        
-        for(int i = 0 ; i < n; i++)
-        {
-            if(colorArray[i] == -1)
-            {
-                if(dfs(i,0,colorArray,adj) == false) return false;
-            }
-        }
-        return true;
-    }
-    public boolean dfs(int node,int color,int[] colorArray,ArrayList<ArrayList<Integer>> adj)
-    {
-        colorArray[node] = color;
+        Queue<Integer> q = new LinkedList<>();
+        int color[] = new int[n];
+        Arrays.fill(color, -1);
 
-        for(int adjNode: adj.get(node))
+        for(int k = 0 ; k < n ; k++)
         {
-            if(colorArray[adjNode] == -1)
+            if(color[k] == -1)
             {
-                if(dfs(adjNode , 1 - color ,colorArray,adj) == false)
+                color[k] = 0;
+                q.add(k);
+
+                while(!q.isEmpty())
                 {
-                    return false;
+                    int size = q.size();
+                    for(int i = 0 ; i < size ; i++)
+                    {
+                        int node = q.poll();
+                        int value= color[node];
+
+                        for(int adjNode: adj.get(node))
+                        {
+                            if(color[adjNode] == -1)
+                            {
+                                color[adjNode] = 1 - value;
+                                q.add(adjNode);
+                            }else if(color[adjNode] == value)
+                            {
+                                
+                                return false;
+                            }
+                        }
+                    }
                 }
             }
-            else if(colorArray[adjNode] == color){
-                return false;
-            }
         }
+        
         return true;
     }
 }
