@@ -17,7 +17,6 @@ class Solution {
                 adj.get(v).add(u);
             }
         }
-        Queue<Integer> q = new LinkedList<>();
         int color[] = new int[n];
         Arrays.fill(color, -1);
 
@@ -25,34 +24,25 @@ class Solution {
         {
             if(color[k] == -1)
             {
-                color[k] = 0;
-                q.add(k);
-
-                while(!q.isEmpty())
-                {
-                    int size = q.size();
-                    for(int i = 0 ; i < size ; i++)
-                    {
-                        int node = q.poll();
-                        int value= color[node];
-
-                        for(int adjNode: adj.get(node))
-                        {
-                            if(color[adjNode] == -1)
-                            {
-                                color[adjNode] = 1 - value;
-                                q.add(adjNode);
-                            }else if(color[adjNode] == value)
-                            {
-                                
-                                return false;
-                            }
-                        }
-                    }
-                }
+                if(!dfs(k, color,1, adj)) return false;
             }
         }
-        
+        return true;
+    }
+    public boolean dfs(int parent, int[] color,int c, ArrayList<ArrayList<Integer>> adj)
+    {
+        color[parent] = c;
+
+        for(int child: adj.get(parent))
+        {
+            if(color[child] == -1)
+            {
+                if(dfs(child, color, 1 - c, adj) == false) return false;
+            }else if(color[child] == c)
+            {
+                return false;
+            }
+        }
         return true;
     }
 }
