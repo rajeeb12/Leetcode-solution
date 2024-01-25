@@ -1,14 +1,29 @@
 class Solution {
     int dp[][];
-    public int longestCommonSubsequence(String text1, String text2) {
+    public int longestCommonSubsequence(String str1, String str2) {
 
-        int n1 = text1.length();
-        int n2 = text2.length();
+        int n1 = str1.length();
+        int n2 = str2.length();
         dp = new int[n1 + 1][n2 + 1];
 
-        for(int row[]: dp) Arrays.fill(row, -1);
-        
-        return solve(text1, text2, n1 - 1, n2 -1);
+        for(int i1 = 1 ; i1 <= n1; i1++)
+        {
+            for(int i2 = 1 ; i2 <= n2; i2++)
+            {
+                int pick = 0;
+                int notPick = 0;
+                if(str1.charAt(i1 - 1) == str2.charAt(i2 - 1))
+                {
+                    pick = 1 + dp[i1 - 1][i2 - 1];
+                }
+                notPick = Math.max(dp[i1 - 1][i2] , dp[i1][i2 - 1]);
+
+                dp[i1][i2] = Math.max(pick, notPick);
+            }
+        }
+
+        //return solve(text1, text2, n1 - 1, n2 -1);
+        return dp[n1][n2];    
     }
     public int solve(String str1, String str2,int i1,int i2)
     {
