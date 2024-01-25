@@ -2,24 +2,27 @@ class Solution {
     int dp[][];
     public int minimumTotal(List<List<Integer>> triangle) {
         int n = triangle.size();
-        dp = new int[n + 1][n + 1];
-        
+        //dp = new int[n + 1][n + 1];
+        int next[]= new int[n + 1];
+
         for(int i = 0 ; i < n ; i++)
         {
-            dp[n - 1][i] = triangle.get(n - 1).get(i);
+            next[i] = triangle.get(n - 1).get(i);
         }
 
         for(int i = n - 2 ; i >= 0 ; i--)
         {
+            int cur[] = new int[n + 1];
             for(int j = i ; j >= 0; j--)
             {
-                int down = triangle.get(i).get(j) + dp[i + 1][j];
-                int rightDiag = triangle.get(i).get(j) + dp[i + 1][j + 1];
-                dp[i][j]= Math.min(down , rightDiag);
+                int down = triangle.get(i).get(j) + next[j];
+                int rightDiag = triangle.get(i).get(j) + next[j + 1];
+                cur[j]= Math.min(down , rightDiag);
             }
+            next = cur;
         }
         //return solve(triangle, 0, 0, n );
-        return dp[0][0];
+        return next[0];
     }
     public int solve(List<List<Integer>> triangle , int i, int j,int n)
     {
