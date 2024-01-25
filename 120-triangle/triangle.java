@@ -3,9 +3,23 @@ class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
         int n = triangle.size();
         dp = new int[n + 1][n + 1];
-        for(int i[]: dp) Arrays.fill(i, - 1);
+        
+        for(int i = 0 ; i < n ; i++)
+        {
+            dp[n - 1][i] = triangle.get(n - 1).get(i);
+        }
 
-        return solve(triangle, 0, 0, n );
+        for(int i = n - 2 ; i >= 0 ; i--)
+        {
+            for(int j = i ; j >= 0; j--)
+            {
+                int down = triangle.get(i).get(j) + dp[i + 1][j];
+                int rightDiag = triangle.get(i).get(j) + dp[i + 1][j + 1];
+                dp[i][j]= Math.min(down , rightDiag);
+            }
+        }
+        //return solve(triangle, 0, 0, n );
+        return dp[0][0];
     }
     public int solve(List<List<Integer>> triangle , int i, int j,int n)
     {
