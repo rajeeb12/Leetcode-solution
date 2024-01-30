@@ -17,30 +17,26 @@ class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         if(root == null) return false;
 
-        if(solve(root, subRoot))
+        
+        if(isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot))
         {
             return true;
         }
-
-        boolean left = isSubtree(root.left, subRoot);
-        boolean right = isSubtree(root.right, subRoot);
-
-        if(left == true || right == true) return true;
-        return false;
-    }
-
-    public boolean solve(TreeNode r1,TreeNode r2)
-    {
-        if(r1 == null || r2 == null) return (r1 == r2);
-
-        if(r1.val != r2.val){
-            return false;
+        if(root.val == subRoot.val)
+        {
+            if(isSameTree(root, subRoot))
+            {
+                return true;
+            }else{
+                return false;
+            }
         }
 
-        boolean left = solve(r1.left,r2.left);
-        boolean right = solve(r1.right, r2.right);
+        return false;
+    }
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p == null || q == null) return (p == q);
 
-        if(!left || !right) return false;
-        return true;
+        return (p.val == q.val && isSameTree(p.left, q.left)  && isSameTree(p.right, q.right));
     }
 }
