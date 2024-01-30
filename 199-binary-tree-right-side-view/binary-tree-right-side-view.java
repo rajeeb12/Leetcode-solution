@@ -24,32 +24,22 @@ class Pair{
 }
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        HashMap<Integer,Integer> map = new HashMap<>();
         List<Integer> ans = new ArrayList<>();
 
         if(root == null) return ans;
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(0, root));
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
 
         while(!q.isEmpty())
         {
-            Pair temp = q.poll();
-            int level = temp.level;
-            TreeNode node = temp.node;
-
-            map.put(level, node.val);
-            if(node.left != null)
+            int size= q.size();
+            for(int i = 0 ; i < size ; i++)
             {
-                q.add(new Pair(level + 1, node.left));
-            }
-            if(node.right != null)
-            {
-                q.add(new Pair(level + 1, node.right));
-            }
-        }
-        for(Map.Entry<Integer,Integer> entry: map.entrySet())
-        {
-            ans.add(entry.getValue());
+                TreeNode node = q.poll();
+                if(i == 0) ans.add(node.val);
+                if(node.right != null) q.add(node.right);
+                if(node.left != null) q.add(node.left);
+            }   
         }
         return ans;
     }
