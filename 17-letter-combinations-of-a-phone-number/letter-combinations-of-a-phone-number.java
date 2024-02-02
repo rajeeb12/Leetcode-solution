@@ -1,27 +1,30 @@
 class Solution {
-    String arr[] = {"","", "abc","def", "ghi","jkl","mno","pqrs","tuv","wxyz"};
     public List<String> letterCombinations(String digits) {
-        List<String> ans  = new ArrayList<>();
-        
-        if(digits.length() == 0){
-            return ans;
-        }
+        List<String> ans = new ArrayList<>();
 
-        solve(0,"",ans,digits);
+        if(digits.length() == 0) return ans;
+        
+        String[] arr = {"","","abc","def", "ghi","jkl","mno","pqrs","tuv","wxyz"};
+
+        StringBuilder sb = new StringBuilder("");
+        
+        solve(0,digits,arr,sb, ans);
+
         return ans;
     }
-    public void solve(int index,String str,List<String> ans,String digits)
+    public void solve(int index,String digit, String[] arr, StringBuilder sb,List<String> ans)
     {
-        if(str.length() == digits.length())
+        if(index == digit.length())
         {
-            ans.add(str);
+            ans.add(sb.toString());
             return;
         }
-
-        String number = arr[digits.charAt(index) - '0'];
-        for(int j = 0; j < number.length() ; j++)
+        String str = arr[digit.charAt(index) - '0'];
+        for(int i= 0 ; i < str.length(); i++)
         {
-            solve(index + 1, str + number.charAt(j), ans, digits);
+            sb.append(str.charAt(i));
+            solve(index + 1, digit, arr, sb, ans);
+            sb.delete(sb.length() - 1, sb.length());
         }
     }
 }
