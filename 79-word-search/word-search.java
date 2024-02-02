@@ -30,20 +30,24 @@ class Solution {
 
         int di[] = {1,-1,0,0};
         int dj[] = {0,0,1,-1};
-        boolean ans =false;
 
         for(int i = 0 ; i < 4; i++)
         {
             int next_row = row + di[i];
             int next_col = col + dj[i];
-            if(helper(next_row,next_col, n ,m) && board[next_row][next_col] == arr[index] && visited[next_row][next_col] == 0)
+            if(helper(next_row,next_col, n ,m))
             {
-                boolean temp = solve(next_row,next_col,board,visited,arr, n , m, index + 1);
-                ans = temp || ans;
+                if(board[next_row][next_col] == arr[index] && visited[next_row][next_col] == 0)
+                {
+                    if(solve(next_row,next_col,board,visited,arr, n , m, index + 1))
+                    {
+                        return true;
+                    }
+                }
             }
         } 
         visited[row][col] = 0;
-        return ans;
+        return false;
     }
     public boolean helper(int next_row,int next_col,int n,int m)
     {
