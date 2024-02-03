@@ -1,5 +1,5 @@
 class Solution {
-    Boolean dp[][];
+    boolean dp[][];
     public boolean canPartition(int[] nums) {
         int n = nums.length;
         int totalsum = 0;
@@ -7,28 +7,49 @@ class Solution {
 
         if(totalsum % 2 == 1) return false;
 
-        dp = new Boolean[n +1][(totalsum / 2) + 1];
+        dp = new boolean[n +1][(totalsum / 2) + 1];
+        totalsum /= 2;
 
-        return solve(0,n, nums,totalsum / 2);
-    }
-    public boolean solve(int index,int n, int[] nums,int totalsum)
-    {
-        if(totalsum == 0) return true;
-
-        if(index == n)
+        for(int i = 0; i < n ; i++)
         {
-            return false;
+            dp[i][0] = true;
         }
 
-        if(dp[index][totalsum] != null) return dp[index][totalsum];
-
-        boolean pick = false;
-        boolean notpick =solve(index + 1, n, nums, totalsum);
-        if(nums[index] <= totalsum)
+        for(int index = n - 2 ; index >= 0; index--)
         {
-            pick = solve(index + 1, n, nums, totalsum - nums[index]);
-        }
+            for(int t = 0 ; t <= totalsum; t++)
+            {
+                boolean pick = false;
+                boolean notpick = dp[index + 1][t];
+                if(nums[index] <= t)
+                {
+                    pick = dp[index + 1][t - nums[index]];
+                }
 
-        return dp[index][totalsum] = (pick || notpick);
+                dp[index][t] = (pick || notpick);
+            }
+        }
+        return dp[0][totalsum];
+        //return solve(0,n, nums,totalsum / 2);
     }
+    // public boolean solve(int index,int n, int[] nums,int t)
+    // {
+    //     if(t == 0) return true;
+
+    //     if(index == n)
+    //     {
+    //         return false;
+    //     }
+
+    //     if(dp[index][t] != null) return dp[index][t];
+
+    //     boolean pick = false;
+    //     boolean notpick =solve(index + 1, n, nums, t);
+    //     if(nums[index] <= t)
+    //     {
+    //         pick = solve(index + 1, n, nums, t - nums[index]);
+    //     }
+
+    //     return dp[index][t] = (pick || notpick);
+    // }
 }
