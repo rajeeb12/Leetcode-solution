@@ -1,55 +1,36 @@
 class Solution {
-    boolean dp[][];
     public boolean canPartition(int[] nums) {
         int n = nums.length;
         int totalsum = 0;
-        for(int i : nums) totalsum += i;
+        for(int i: nums) totalsum += i;
 
         if(totalsum % 2 == 1) return false;
 
-        dp = new boolean[n +1][(totalsum / 2) + 1];
         totalsum /= 2;
+        boolean prev[] = new boolean[totalsum + 1]; 
 
-        for(int i = 0; i < n ; i++)
-        {
-            dp[i][0] = true;
-        }
+        prev[0] = true;
+        if(nums[0] <= totalsum) prev[nums[0]] = true;
 
-        for(int index = n - 2 ; index >= 0; index--)
+        for(int ind = 1; ind < n; ind++)
         {
-            for(int t = 0 ; t <= totalsum; t++)
+            boolean cur[]= new boolean[totalsum + 1];
+            cur[0] = true;
+            for(int t = 1; t <= totalsum; t++)
             {
-                boolean pick = false;
-                boolean notpick = dp[index + 1][t];
-                if(nums[index] <= t)
-                {
-                    pick = dp[index + 1][t - nums[index]];
+                boolean notTaken = prev[t];
+
+                // Calculate if the current element is taken
+                boolean taken = false;
+                if (nums[ind] <= t) {
+                    taken = prev[t - nums[ind]];
                 }
 
-                dp[index][t] = (pick || notpick);
+                // Updae the DP table for the current element and target sum
+                cur[t] = notTaken || taken;
             }
-        }
-        return dp[0][totalsum];
-        //return solve(0,n, nums,totalsum / 2);
+            prev = cur;
+        }  
+        return prev[totalsum];
     }
-    // public boolean solve(int index,int n, int[] nums,int t)
-    // {
-    //     if(t == 0) return true;
-
-    //     if(index == n)
-    //     {
-    //         return false;
-    //     }
-
-    //     if(dp[index][t] != null) return dp[index][t];
-
-    //     boolean pick = false;
-    //     boolean notpick =solve(index + 1, n, nums, t);
-    //     if(nums[index] <= t)
-    //     {
-    //         pick = solve(index + 1, n, nums, t - nums[index]);
-    //     }
-
-    //     return dp[index][t] = (pick || notpick);
-    // }
 }
