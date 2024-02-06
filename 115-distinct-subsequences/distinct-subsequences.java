@@ -4,15 +4,31 @@ class Solution {
         int n = s.length();
         int m = t.length();
         dp = new int[n + 1][m + 1];
-        for(int i[]: dp)
+        
+        for(int i = 0 ; i <= n; i++)
         {
-            Arrays.fill(i, -1);
+            dp[i][0] = 1;
         }
-        return solve(n - 1,  m - 1,s,t);   
+
+        for(int i = 1; i <= n; i++)
+        {
+            for(int j = 1; j <= m; j++)
+            {
+                if(s.charAt(i - 1) == t.charAt(j - 1))
+                {
+                    dp[i][j]= (dp[i - 1][j] + dp[i - 1][j - 1]);
+                }
+                else{
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n][m];
+        //return solve(n - 1,  m - 1,s,t);   
     }
     public int solve(int i,int j,String s,String t)
     {
-        if(j < 0 ) return 1;
+        if(j < 0) return 1;
         if(i < 0) return 0;
 
         if(dp[i][j] != -1) return dp[i][j];
