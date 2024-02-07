@@ -4,6 +4,9 @@ class Solution {
     public int maxProfit(int[] prices) {
         n = prices.length;
         dp = new int[n + 2][2];
+        int front1[] = new int[2];
+        int front2[] = new int[2];
+        int cur[] = new int[2];
 
         for(int i = n - 1; i >= 0; i--)
         {
@@ -11,15 +14,17 @@ class Solution {
             {
                 if(buy == 0)
                 {
-                    dp[i][buy] = Math.max(-prices[i] + dp[i+1][1], dp[i +1][0]);
+                    cur[buy] = Math.max(-prices[i] + front1[1], front1[0]);
                 }
                 if(buy == 1)
                 {
-                    dp[i][buy] = Math.max(prices[i] + dp[i + 2][0] , dp[i + 1][1]);
+                    cur[buy] = Math.max(prices[i] + front2[0] , front1[1]);
                 }
             }
+            System.arraycopy(front1, 0, front2, 0, 2);
+            System.arraycopy(cur, 0, front1, 0, 2);
         }
-        return dp[0][0];
+        return cur[0];
         //return solve(0, prices,0);
     }
     // 0 - > sell , 1 -> buy
