@@ -3,9 +3,24 @@ class Solution {
     int dp[][];
     public int maxProfit(int[] prices) {
         n = prices.length;
-        dp = new int[n + 1][2];
-        for(int i[]: dp) Arrays.fill(i, -1);
-        return solve(0, prices,0);
+        dp = new int[n + 2][2];
+
+        for(int i = n - 1; i >= 0; i--)
+        {
+            for(int buy = 0 ; buy <=1; buy++)
+            {
+                if(buy == 0)
+                {
+                    dp[i][buy] = Math.max(-prices[i] + dp[i+1][1], dp[i +1][0]);
+                }
+                if(buy == 1)
+                {
+                    dp[i][buy] = Math.max(prices[i] + dp[i + 2][0] , dp[i + 1][1]);
+                }
+            }
+        }
+        return dp[0][0];
+        //return solve(0, prices,0);
     }
     // 0 - > sell , 1 -> buy
     public int solve(int i,int[] prices,int buy)
