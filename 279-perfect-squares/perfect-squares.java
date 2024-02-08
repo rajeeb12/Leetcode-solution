@@ -1,9 +1,19 @@
 class Solution {
     int dp[];
-    public int numSquares(int n) {
-        dp = new int[n + 1];
-        Arrays.fill(dp ,-1);
-        return solve(n);
+    public int numSquares(int j) {
+        dp = new int[j + 1];
+
+        for(int n = 1 ; n <= j; n++)
+        {
+            int ans = (int)1e9;
+            for(int i = 1; i * i <= n; i++)
+            {
+                ans = Math.min(1 + dp[n - i *i], ans);
+            }
+            dp[n] = ans;
+        }
+        return dp[j];
+        //return solve(i);
     }
     public int solve(int n)
     {
