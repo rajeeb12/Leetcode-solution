@@ -1,39 +1,47 @@
 class Pair{
     String str;
     int level;
-    public Pair(String _s, int _l){
+    public Pair(String _s,int _l)
+    {
         this.str = _s;
         this.level = _l;
     }
 }
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        HashSet<String> set = new HashSet<>();
         Queue<Pair> q = new LinkedList<>();
-
-        q.add(new Pair(beginWord , 0));
-        Set<String> set = new HashSet<>();
-        for(String str : wordList){
-            set.add(str);
+        for(String s: wordList)
+        {
+            set.add(s);
         }
+        q.add(new Pair(beginWord, 1));
         set.remove(beginWord);
 
         while(!q.isEmpty())
         {
-            Pair temp = q.poll();
-            String str = temp.str;
-            int level = temp.level;
+            int size= q.size();
 
-            if(str.equals(endWord)) return level + 1;
+            for(int i = 0 ; i < size; i++)
+            {
+                Pair p = q.poll();
+                String s = p.str;
+                int level = p.level;
 
-            for(int i = 0 ; i < str.length() ; i++){
-                for(char ch = 'a' ; ch <= 'z' ; ch++)
+                if(s.equals(endWord)) return level;
+
+                for(int j = 0 ; j < s.length(); j++)
                 {
-                    char[] chrArray = str.toCharArray();
-                    chrArray[i] = ch;
-                    String str2 = new String(chrArray);
-                    if(set.contains(str2)){
-                        set.remove(str2);
-                        q.add(new Pair(str2,level + 1));
+                    for(char ch= 'a' ; ch <= 'z'; ch++)
+                    {
+                        char[] charArray = s.toCharArray();
+                        charArray[j] = ch;
+                        String str = new String(charArray);
+                        if(set.contains(str))
+                        {
+                            set.remove(str);
+                            q.add(new Pair(str, level + 1));
+                        }
                     }
                 }
             }
