@@ -2,9 +2,12 @@ class Solution {
     int dp[];
     public int minCostClimbingStairs(int[] cost) {
         int n = cost.length;
-        dp = new int[n + 1];
-        Arrays.fill(dp, -1);
-        return Math.min(solve(0,cost), solve(1,cost));
+        dp = new int[n + 2];
+        for(int i = n - 1; i >= 0; i--)
+        {
+            dp[i] = Math.min(cost[i] + dp[i + 1], cost[i] + dp[i + 2]);   
+        }
+        return Math.min(dp[0] , dp[1]);
     }
     public int solve(int i,int[] cost)
     {
