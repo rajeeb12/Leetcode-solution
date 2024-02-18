@@ -1,30 +1,34 @@
 class Solution {
     int dp[][];
     public int coinChange(int[] coins, int amount) {
-        if(amount == 0) return 0;
-
         int n = coins.length;
         dp = new int[n + 1][amount + 1];
-        for(int i[] : dp) Arrays.fill(i, -1);
-
-        int ans = helper(coins, 0,amount);
-
-        return (ans == (int)1e9 ? -1: ans);
+        for(int i[]: dp)
+        {
+            Arrays.fill(i, -1);
+        }
+        int ans = solve(0, coins, amount);
+        return (ans == (int)1e9 ? -1 : ans);
     }
-    public int helper(int[] coins,int index, int amount)
+    public int solve(int index, int[] coins,int amt)
     {
         if(index == coins.length)
         {
-            return (amount == 0 ? 0 : (int)1e9);
+            if(amt == 0)
+            {
+                return 0;
+            }
+            return (int)1e9;
         }
+        
+        if(dp[index][amt] != -1) return dp[index][amt];
 
-        if(dp[index][amount] != -1) return dp[index][amount];
-
-        int notPick = helper(coins, index + 1, amount);
+        int notPick = solve(index + 1,coins, amt);
         int pick = (int)1e9;
-        if(coins[index] <= amount)
-            pick = 1 + helper(coins, index, amount - coins[index]);
-
-        return dp[index][amount] = Math.min(notPick , pick);
+        if(coins[index] <= amt)
+        {
+            pick = 1 + solve(index , coins , amt - coins[index]);
+        }
+        return dp[index][amt] = Math.min(notPick , pick);
     }
 }
