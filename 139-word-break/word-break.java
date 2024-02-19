@@ -8,7 +8,27 @@ class Solution {
         {
             set.add(str);
         }
-        return solve(0, s,set);
+
+        dp[n] = true;
+        
+        for(int index = n - 1; index >= 0; index--)
+        {
+            boolean flag = false;
+            for(int i = index; i < s.length(); i++)
+            {
+                if(set.contains(s.substring(index, i + 1)) && dp[i + 1])
+                {
+                    dp[index]= true;
+                    flag = true;
+                }
+            }
+            if(!flag)
+            {
+                dp[index] = flag;
+            }
+        }
+        return dp[0];
+        //return solve(0, s,set);
     }
     public boolean solve(int index,String s, HashSet<String> set)
     {
