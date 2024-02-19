@@ -3,11 +3,23 @@ class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
         dp = new int[n + 1][n + 1];
-        for(int i[]: dp)
+        
+        for(int index = n - 1; index >= 0 ;index--)
         {
-            Arrays.fill(i, -1);
+            for(int prev = index - 1; prev >= -1 ; prev--)
+            {
+                int not_pick = dp[index + 1][prev + 1] ;
+                int pick = 0;
+
+                if(prev == -1 || (nums[index] > nums[prev]))
+                {
+                    pick = 1 + dp[index + 1][index + 1];
+                } 
+                dp[index][prev + 1] = Math.max(pick , not_pick);
+            }
         }
-        return solve(0, -1, nums);
+        return dp[0][0];
+        //return solve(0, -1, nums);
     }
     public int solve(int index,int prev,int[] nums)
     {
