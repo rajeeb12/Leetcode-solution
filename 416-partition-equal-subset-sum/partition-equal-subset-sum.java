@@ -1,36 +1,38 @@
 class Solution {
+    Boolean dp[][];
     public boolean canPartition(int[] nums) {
         int n = nums.length;
+       
         int totalsum = 0;
-        for(int i: nums) totalsum += i;
-
-        if(totalsum % 2 == 1) return false;
-
-        totalsum /= 2;
-        boolean prev[] = new boolean[totalsum + 1]; 
-
-        prev[0] = true;
-        if(nums[0] <= totalsum) prev[nums[0]] = true;
-
-        for(int ind = 1; ind < n; ind++)
+        for(int i : nums)
         {
-            boolean cur[]= new boolean[totalsum + 1];
-            cur[0] = true;
-            for(int t = 1; t <= totalsum; t++)
+            totalsum += i;
+        }
+        if(totalsum % 2 != 0) return false;
+        totalsum /= 2;
+        dp = new Boolean[n + 1][totalsum + 1];
+
+        return solve(0, nums, totalsum);
+    }
+    public boolean solve(int index,int[] nums,int target)
+    {
+        if(index == nums.length)
+        {
+            if(target == 0)
             {
-                boolean notTaken = prev[t];
-
-                // Calculate if the current element is taken
-                boolean taken = false;
-                if (nums[ind] <= t) {
-                    taken = prev[t - nums[ind]];
-                }
-
-                // Updae the DP table for the current element and target sum
-                cur[t] = notTaken || taken;
+                return true;
             }
-            prev = cur;
-        }  
-        return prev[totalsum];
+            return false;
+        }
+        if(dp[index][target] != null) return dp[index][target];
+
+        boolean notpick = solve(index + 1, nums, target);
+        boolean pick = false;
+        if(nums[index] <= target)
+        {
+            pick = solve(index + 1, nums, target - nums[index]);
+        }
+        return dp[index][target] = (pick || notpick); 
+
     }
 }
