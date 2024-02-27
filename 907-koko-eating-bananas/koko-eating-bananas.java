@@ -1,27 +1,29 @@
 class Solution {
     public int minEatingSpeed(int[] piles, int h) {
-        int right = 1000000000;
-        int left = 1;
+        int lo = 1;
+        int hi = 1000000000;
 
-        while(left <= right)
+        while(lo <= hi)
         {
-            int mid = left + ((right - left) / 2);
-            if(totalHours(mid, piles) <= h)
+            int mid = (lo + hi) >> 1;
+            int value = check(mid, piles);
+            if(value <= h)
             {
-                right = mid - 1;
+                hi = mid - 1;
             }else{
-                left = mid + 1;
+                lo = mid + 1;
             }
         }
-        return left;
+        return lo;
     }
-    public int totalHours(int h,int[] piles)
+    public int check(int i,int[] piles)
     {
-        int th = 0;
-        for(int i: piles)
-        { 
-            th += Math.ceil(1.0 * i / h); 
+        int sum = 0;
+        for(int num: piles)
+        {
+            sum += Math.ceil((double) num / (double)i);
         }
-        return th;
+        return sum;
     }
+    
 }
