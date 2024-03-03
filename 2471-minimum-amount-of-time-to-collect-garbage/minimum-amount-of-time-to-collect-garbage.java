@@ -4,7 +4,9 @@ class Solution {
         {
             travel[i] += travel[i - 1];
         }
-        HashMap<Character, Integer> map = new HashMap<>();
+        int m_index = 0;
+        int p_index = 0;
+        int g_index = 0;
         int sum = 0;
         for(int i = 0; i < garbage.length; i++)
         {
@@ -12,14 +14,20 @@ class Solution {
             sum += str.length();
             for(char ch: str.toCharArray())
             {
-                map.put(ch, i);
+                if(ch == 'G')
+                {
+                    m_index = i;   
+                }else if(ch == 'P')
+                {
+                    p_index = i;
+                }else{
+                    g_index = i;
+                }
             }
         }
-        for(Integer it: map.values())
-        {
-            if(it == 0) continue;
-            sum += travel[it - 1];
-        }
+        sum += m_index <= 0 ? 0 : travel[m_index - 1];
+        sum += p_index <= 0 ? 0 : travel[p_index - 1];
+        sum += g_index <= 0 ? 0 : travel[g_index - 1];
         return sum;
     }
 }
