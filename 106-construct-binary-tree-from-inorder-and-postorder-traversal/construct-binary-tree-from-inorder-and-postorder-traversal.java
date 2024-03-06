@@ -14,29 +14,25 @@
  * }
  */
 class Solution {
-    HashMap<Integer,Integer> map;
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        int n = inorder.length-1;
-        int m = postorder.length-1;
-        map = new HashMap<>();
-        for(int i = 0; i <= n; i++){
-            map.put(inorder[i],i);
+        int ni = inorder.length;
+        int np = postorder.length;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i = 0 ; i < ni; i++)
+        {
+            map.put(inorder[i], i);
         }
-        return solve(0,n,inorder,0,m,postorder);
+        return solve(inorder,0,ni - 1, postorder, 0, np - 1, map);
     }
-    public TreeNode solve(int inStart,int inEnd,int[] inorder,int posStart,int posEnd,int[] postorder){
-        if(inStart > inEnd || posStart > posEnd){
-            return null;
-        }
+    public TreeNode solve(int[] inorder,int is,int ie,int[] postorder,int ps,int pe,HashMap<Integer,Integer> map)
+    {
+        if(is > ie || ps > pe) return null;
 
-        TreeNode node = new TreeNode(postorder[posEnd]);
-
-        int inRoot = map.get(node.val);
-        int numLeft = inRoot - inStart;
-
-        node.left = solve(inStart , inRoot - 1, inorder, posStart, posStart + numLeft - 1, postorder);
-        node.right = solve(inRoot + 1 , inEnd, inorder, posStart + numLeft , posEnd-1, postorder);
-
-        return node;
+        TreeNode root = new TreeNode(postorder[pe]);
+        int index = map.get(postorder[pe]);
+        int remLeft = index - is;
+        root.left = solve(inorder,is, index - 1, postorder, ps , ps + remLeft - 1, map);
+        root.right = solve(inorder, index + 1, ie, postorder, ps + remLeft, pe - 1, map);
+        return root;
     }
 }
