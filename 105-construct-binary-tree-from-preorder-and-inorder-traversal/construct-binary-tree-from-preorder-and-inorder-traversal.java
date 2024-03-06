@@ -15,24 +15,25 @@
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        int n = preorder.length;
-        int m = inorder.length;
         HashMap<Integer,Integer> map= new HashMap<>();
-        for(int i = 0 ; i < m ; i++){
-            map.put(inorder[i], i);
+        int np = preorder.length;
+        int ni = inorder.length;
+        for(int i =0; i < ni; i++)
+        {
+            map.put(inorder[i] , i);
         }
-        return construct(0,n-1,preorder, 0,m-1,inorder, map);
+        return solve(preorder,0,np-1, inorder, 0 , ni -1, map);
     }
-    public TreeNode construct(int preStart,int preEnd,int[] preOrder,int inStart,int inEnd,int[] inOrder,HashMap<Integer,Integer> map){
-        if(preStart > preEnd || inStart > inEnd) return null;
+    public TreeNode solve(int[] preorder,int ps,int pe,int[] inorder,int is,int ie,HashMap<Integer,Integer> map)
+    {
+        if(ps > pe || is > ie) return null;
 
-        TreeNode node= new TreeNode(preOrder[preStart]);
-        int pNodePos = map.get(node.val);
-        int nElement =pNodePos - inStart;
+        TreeNode root = new TreeNode(preorder[ps]);
 
-        node.left = construct(preStart+1,preStart + nElement,preOrder,inStart,pNodePos - 1,inOrder, map); 
-        node.right = construct(nElement + preStart + 1,preEnd,preOrder,pNodePos + 1, inEnd,inOrder, map); 
-
-        return node;
+        int index = map.get(preorder[ps]);
+        int remLeft = index - is;
+        root.left = solve(preorder, ps + 1, ps + remLeft + 1, inorder,is , index - 1, map); 
+        root.right = solve(preorder, ps + remLeft +1, pe, inorder, index + 1 , ie, map);
+        return root; 
     }
 }
