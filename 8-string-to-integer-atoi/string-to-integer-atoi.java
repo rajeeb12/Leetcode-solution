@@ -1,10 +1,8 @@
 class Solution {
     public int myAtoi(String s) {
         if(s.length() == 0) return 0;
-        int ans = 0;
         int index = 0;
-        int l = s.length(); 
-        while(index < l && s.charAt(index) == ' ')
+        while(index < s.length() && s.charAt(index) == ' ')
         {
             index++;
         }
@@ -15,22 +13,23 @@ class Solution {
             {
                 isNeg = true;
                 index++;
-            }else if(s.charAt(index) == '+'){
+            }
+            else if(s.charAt(index) == '+'){
                 index++;
             }
         }
-        long result = 0;
-        for(int i = index; i < s.length() && Character.isDigit(s.charAt(i)); i++)
+        
+        long sum = 0;
+        for(int i = index; i < s.length() && Character.isDigit(s.charAt(i)) ; i++)
         {
-            int digit = s.charAt(i) -'0';
-            if(result > (Integer.MAX_VALUE / 10) || result == (Integer.MAX_VALUE / 10) && digit > 7)
+            int digit = s.charAt(i) - '0';
+            if((sum == (Integer.MAX_VALUE/10) && digit > 7) || sum > (Integer.MAX_VALUE / 10 ))
             {
-                return (isNeg ? Integer.MIN_VALUE : Integer.MAX_VALUE);
+                return (isNeg ? Integer.MIN_VALUE: Integer.MAX_VALUE);
             }
-
-            result = result * 10 + digit; 
+            sum = sum * 10 + digit;
         }
-        if(isNeg) return (int)-result;
-        return (int)result;
+        if(isNeg) return (int)-sum;
+        return (int)sum;
     }
 }
