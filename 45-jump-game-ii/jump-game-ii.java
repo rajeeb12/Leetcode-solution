@@ -1,26 +1,19 @@
 class Solution {
-  int dp[];
     public int jump(int[] nums) {
-        dp = new int[nums.length +1];
-        Arrays.fill(dp,-1);
-        return solve(0,nums);
-    }
-    public int solve(int index,int[] nums)
-    {
-        if(index >= nums.length-1)
-        {
-            return 0;
-        }
-
-        if(dp[index] != -1) return dp[index];
-
-        if(nums[index] == 0) return (int)1e9;
+        int countJump = 0;
+        int n = nums.length;
+        int furJump = 0, curEnd = 0;
+        if(nums[0] == 0 || n == 1) return 0;
         
-        int minStep = (int)1e9;
-        for(int i = 1 ; i <= nums[index] ; i++)
+        for(int i = 0; i < n - 1; i++)
         {
-          minStep = Math.min(minStep , 1 + solve(index + i, nums));
+            furJump = Math.max(furJump, i + nums[i]);
+            if(i == curEnd)
+            {
+                countJump++;
+                curEnd = furJump;
+            }
         }
-        return dp[index] = minStep;
+        return countJump;
     }
 }
