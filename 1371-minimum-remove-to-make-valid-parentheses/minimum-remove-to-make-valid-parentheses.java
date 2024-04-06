@@ -36,12 +36,12 @@ class Solution {
             Pair p = st.pop();
             invalid.add(p.i);
         }
-        String ans = "";
+        StringBuilder ans = new StringBuilder("");
         for(int i = 0; i < n; i++)
         {
             if(invalid.contains(i)) continue;
-            ans += s.charAt(i);
+            ans.append(s.charAt(i));
         }
-        return ans;
+        return ans.toString();
     }
 }
