@@ -1,34 +1,19 @@
-class Pair{
-    int ticket;
-    int index;
-    public Pair(int _t,int _i){
-        this.ticket = _t;
-        this.index = _i;
-    }
-}
 class Solution {
     public int timeRequiredToBuy(int[] tickets, int k) {
-        Queue<Pair> q = new LinkedList<>();
+        int index = 0;
         int n = tickets.length;
-        for(int i = 0; i < n; i++){
-            q.add(new Pair(tickets[i] , i));
-        }
-        int ans = 0;
-        while(!q.isEmpty())
+        int time = 0;
+        while(tickets[k] != 0)
         {
-            Pair p = q.poll();
-            int t = p.ticket;
-            int i = p.index;
-
-            ans++;
-            if(t - 1 == 0 && i == k)
+            if(tickets[index % n] == 0)
             {
-                break;
-            }else if(t - 1 == 0){
-                continue;
+                index++;
+            }else{
+                tickets[index % n]--;
+                index++;
+                time++;
             }
-            q.add(new Pair(t - 1, i));
         }
-        return ans;
+        return time;
     }
 }
