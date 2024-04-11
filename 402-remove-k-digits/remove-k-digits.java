@@ -1,32 +1,28 @@
 class Solution {
-    public String removeKdigits(String s, int k) {
+    public String removeKdigits(String num, int k) {
+      
         Stack<Integer> st = new Stack<>();
 
-        for(char ch: s.toCharArray())
-        {
-            int num = ch - '0';
-
-            while(!st.isEmpty() && k > 0 &&  st.peek() > num)
-            {
+        for(char c: num.toCharArray()){
+            
+            int n = c - '0';
+            while(!st.isEmpty() && st.peek() > n && k > 0){
                 st.pop();
                 k--;
             }
-
-            if(!st.isEmpty() || num != 0) st.add(num);
+            if(!st.isEmpty() || n != 0) st.add(c-'0'); // empty hai and then n == 0 avoid this.
         }
-        String ans = "";
-        // remove the largest value from the top
+
         while(!st.isEmpty() && k > 0)
         {
             st.pop();
             k--;
         }
         if(st.isEmpty()) return "0";
-        for(int i: st)
-        {
-            ans = ans + i;
+        StringBuilder sb = new StringBuilder("");
+        while(!st.isEmpty()){
+            sb.append(st.pop());
         }
-        return ans;
-
+        return sb.reverse().toString();
     }
 }
