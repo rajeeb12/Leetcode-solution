@@ -3,17 +3,16 @@ class SmallestInfiniteSet {
     int min;
     public SmallestInfiniteSet() {
         t = new TreeSet<>();
-        for(int i = 1; i <= 1000; i++){
-            t.add(i);
-        }
+        min = 1; 
     }
     
     public int popSmallest() {
+        if(t.isEmpty()) return min++;
         return t.pollFirst();
     }
     
     public void addBack(int num) {
-        t.add(num);
+        if(num < min) t.add(num);
     }
 }
 
