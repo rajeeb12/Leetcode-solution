@@ -16,28 +16,16 @@
 class Solution {
     public int sumNumbers(TreeNode root) {
         if(root == null) return 0;
-        ArrayList<String> ans = new ArrayList<>();
-        solve(root, "", ans);
-        int res = 0;
 
-        for(String s : ans){
-            System.out.print(s+" ");
-            res += Integer.parseInt(s);
-        }
-        return res;
+        return solve(root, 0);
     }
-    public void solve(TreeNode root,String str,ArrayList<String> ans)
+    public int solve(TreeNode root,int sum)
     {
-        if(root == null){
-            return;
-        }
-        if(root.left == null && root.right == null){
-            str += root.val;
-            ans.add(str); 
-            return;
-        }
+        if(root == null) return 0;
+        sum = sum * 10 + root.val;
+        
+        if(root.left == null && root.right == null) return sum;
 
-        solve(root.left,str + root.val, ans);
-        solve(root.right, str + root.val, ans);
+        return solve(root.left, sum) + solve(root.right, sum);
     }
 }
