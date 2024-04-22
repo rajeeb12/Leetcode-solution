@@ -14,7 +14,7 @@ class Solution {
         {
             de.add(it);
         }
-        if(de.contains("0000") || de.contains(target)) return -1;
+        if(de.contains(target) || de.contains("0000")) return -1;
         if(target.equals("0000")) return 0;
 
         String s = "0000";
@@ -40,24 +40,24 @@ class Solution {
 
                 for(int i = 0; i < 4; i++)
                 {
-                    StringBuilder temp = new StringBuilder(str);
-                    char ch = temp.charAt(i);
-
-                    char in = (ch == '9' ? '0' : (char)(ch + 1));
-                    char dec = (ch == '0' ? '9' : (char) (ch - 1));
-
-                    temp.setCharAt(i, in);
-                    String t = temp.toString();
-                    if(!visited.contains(t) && !de.contains(t))
+                    String temp = str;
+                    
+                    for(int it : delta)
                     {
-                        q.add(new Pair(t, level + 1));
-                        visited.add(t);
-                    }
-                    temp.setCharAt(i, dec);
-                    String u = temp.toString();
-                    if(!visited.contains(u) && !de.contains(u)){
-                        q.add(new Pair(u, level + 1));
-                        visited.add(u);
+                        int val = temp.charAt(i) - '0' + it; 
+                        if(val < 0)
+                        {
+                            val = 9;
+                        }else if(val > 9)
+                        {
+                            val = 0;
+                        }
+                        
+                        String ns = temp.substring(0,i) + (val +"") + temp.substring(i + 1, temp.length());
+                        if(!visited.contains(ns) && !de.contains(ns)){
+                            visited.add(ns);
+                            q.add(new Pair(ns, level + 1));
+                        }
                     }
                 }
             }
