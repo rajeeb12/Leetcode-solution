@@ -1,22 +1,16 @@
 class Solution {
     public int minOperations(int[] nums, int k) {
-        int res = 0;
-        for(int i: nums)
-        {
-            res ^= i;
+        int xor = 0;
+        for(int i : nums){
+            xor ^= i;
         }
-
-        return getCount(res, k);
-    }
-    public int getCount(int res, int k)
-    {
         int count = 0;
-        for(int i = 0 ; i < 32 ; i++)
+        for(int i = 0; i < 32; i++)
         {
-            int bitOfres = res & (1 << i);
-            int bitOfk = k & (1 << i);
+            int bitOfXor = (xor >> i) & 1;
+            int bitOfk = (k >> i) & 1;
 
-            if(bitOfres != bitOfk) count++ ;
+            if(bitOfXor != bitOfk) count++;
         }
         return count;
     }
