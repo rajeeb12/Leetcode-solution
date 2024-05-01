@@ -1,30 +1,32 @@
 class Solution {
-    int dp[][];
     public int minFallingPathSum(int[][] grid) {
         int n = grid.length;
-        int m = grid[0].length;
-        dp = new int[n + 1][m + 1];
-        for(int i[]: dp){
-            Arrays.fill(i, -1);
-        }
-        return solve(0,-1,grid);
-    }
-    public int solve(int r,int c,int[][] grid)
-    {
-        int n = grid.length;
-        int m = grid[0].length;
-
-        if(r == n){
-            return 0;
-        }
-        if(dp[r][c + 1] != -1) return dp[r][c + 1];
-        int ans = (int)1e9;
-        for(int j = 0; j < m; j++)
+        int m = grid[0].length; 
+        int dp[][]= new int[n + 1][m + 1];
+        for(int i = 0; i < m; i++)
         {
-            if(c == -1 || c != j){
-                ans = Math.min(ans, grid[r][j] + solve(r + 1, j, grid));
+            dp[n - 1][i] = grid[n - 1][i];
+        }
+        for(int r = n - 2; r >= 0; r--)
+        {
+            for(int c = 0; c < m; c++)
+            {
+                int ans = (int)1e9;
+                for(int j = 0; j < m; j++)
+                {
+                    if(c != j)
+                    {
+                        ans = Math.min(ans,dp[r + 1][j]);
+                    }
+                }
+                dp[r][c] = ans + grid[r][c]; 
             }
         }
-        return dp[r][c + 1] = ans;
+        int res = (int)1e9;
+        for(int i = 0; i < m; i++)
+        {
+            res = Math.min(res, dp[0][i]);
+        }
+        return res;
     }
 }
