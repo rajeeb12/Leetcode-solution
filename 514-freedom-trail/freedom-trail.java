@@ -1,25 +1,32 @@
 class Solution {
+    int dp[][];
     public int findRotateSteps(String ring, String key) {
-          char[] r=ring.toCharArray();
-        List<Integer>[] p=new List[26];
-        for(int i=0;i<r.length;i++) {
-            int c=r[i]-'a';
-            List<Integer> l=p[c];
-            if(l==null) p[c]=l=new ArrayList<>();
-            l.add(i);
+        dp = new int[ring.length() + 1][key.length() + 1];
+        for(int i[] : dp)
+        {
+            Arrays.fill(i,-1);
         }
-        return helper(0,0,p,key.toCharArray(),ring,new int[key.length()][r.length]);
+        return solve(0,0,ring,key);
     }
-    int helper(int in, int pos, List<Integer>[] p, char[] k, String r, int[][] memo) {
-        if(in==k.length) return 0;
-        if(memo[in][pos]>0) return memo[in][pos]-1;
-        int min=Integer.MAX_VALUE;
-        for(int i: p[k[in]-'a']) {
-            int m;
-            if(i>=pos) m=Math.min(i-pos,pos+r.length()-i);
-            else m=Math.min(pos-i,i+r.length()-pos);
-            min=Math.min(min,m+helper(in+1,i,p,k,r,memo));
+    public int solve(int indexk,int indexr,String ring,String key)
+    {
+        if(indexk == key.length()) return 0;
+        
+        if(dp[indexr][indexk] != -1) return dp[indexr][indexk];
+        int ans = (int)1e9;
+
+        for(int i = 0; i < ring.length(); i++)
+        {
+            if(ring.charAt(i) == key.charAt(indexk))
+            {
+                int antic = Math.abs(i - indexr);
+                int clock = Math.abs(ring.length() - antic);
+                int minans = Math.min(antic , clock);
+
+                minans += 1 + solve(indexk + 1,i,ring,key);
+                ans = Math.min(ans, minans);
+            }
         }
-        return (memo[in][pos]=min+2)-1;
+        return dp[indexr][indexk] = ans;
     }
 }
