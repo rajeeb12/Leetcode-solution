@@ -3,10 +3,11 @@ class Solution {
         String v1[] = version1.split("[.]");
         String v2[] = version2.split("[.]");
         int i;
-        for(i = 0; i < Math.min(v1.length, v2.length); i++)
+        for(i = 0; i < Math.max(v1.length, v2.length); i++)
         {
-            int num1 = Integer.parseInt(v1[i]);
-            int num2 = Integer.parseInt(v2[i]);
+            int num1 = 0 , num2 = 0;
+            if(i < v1.length) num1 = Integer.parseInt(v1[i]);
+            if(i < v2.length) num2 = Integer.parseInt(v2[i]);
             if(num1 < num2)
             {
                 return -1;
@@ -14,20 +15,7 @@ class Solution {
                 return 1;
             }
         }
-        while(i < v1.length){
-            int num = Integer.parseInt(v1[i]);
-            if(num > 0){
-                return 1;
-            }
-            i++;
-        }
-        while(i < v2.length){
-            int num = Integer.parseInt(v2[i]);
-            if(num > 0){
-                return -1;
-            }
-            i++;
-        }
+        
         return 0;
     }
 }
