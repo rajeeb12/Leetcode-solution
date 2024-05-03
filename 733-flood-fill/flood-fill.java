@@ -1,29 +1,52 @@
-class Solution {
-    int di[] = {-1,1,0,0};
-    int dj[] = {0,0,-1,1};
-    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        int n = image.length;
-        int m =  image[0].length;
-        int vis[][]=new int[n][m];
-        solve(image,sr,sc,color, n, m,vis,image[sr][sc]);
-
-        return image;
-    }
-    public void solve(int image[][], int i, int j,int color,int n,int m,int[][] visited,int type)
+class Pair{
+    int i;
+    int j;
+    int color;
+    public Pair(int _i,int _j,int _c)
     {
-        image[i][j] = color;
-        visited[i][j] = 1;
+        this.i = _i;
+        this.j = _j;
+        this.color = _c;
+    }
+}
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(sr,sc,image[sr][sc]));
+        
+        int n = image.length;
+        int m = image[0].length;
+        int di[]={1,-1,0,0};
+        int dj[]={0,0,1,-1};
+        int visited[][] = new int[n][m];
 
-        for(int k = 0 ; k < 4; k++)
+        visited[sr][sc] = 1;
+
+        while(!q.isEmpty())
         {
-            int nextI = i + di[k];
-            int nextJ = j + dj[k];
-
-            if(nextI >= 0 && nextJ >= 0 && nextI < n && nextJ < m && image[nextI][nextJ] == type && visited[nextI][nextJ] == 0)
+            int size= q.size();
+            for(int i = 0; i < size; i++)
             {
-                System.out.print(nextI+" "+nextJ);
-                solve(image, nextI,nextJ,color,n,m,visited, type);
+                Pair p = q.poll();
+                int x = p.i;
+                int y = p.j;
+                int c = p.color;
+
+                image[x][y] = color;
+
+                for(int k = 0; k < 4; k++)
+                {
+                    int ni = x + di[k];
+                    int nj = y + dj[k];
+                    if(ni >= 0 && nj >= 0 && ni < n && nj < m && image[ni][nj] == c && visited[ni][nj] == 0)
+                    {
+                        visited[ni][nj] = 1;
+                        q.add(new Pair(ni,nj, c));
+                    }
+                }
             }
         }
+        return image;
     }
 }
