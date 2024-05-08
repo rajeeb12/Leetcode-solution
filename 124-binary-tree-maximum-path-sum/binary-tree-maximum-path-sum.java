@@ -26,7 +26,7 @@ class Solution {
         int left = Math.max(0, solve(root.left, ans));
         int right = Math.max(0, solve(root.right, ans));
 
-        ans[0] = Math.max(ans[0], Math.max(root.val , root.val + left + right));
+        ans[0] = Math.max(ans[0],  root.val + left + right);
 
         return root.val + Math.max(left, right);
     }
