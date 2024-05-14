@@ -1,64 +1,51 @@
 class Solution {
-    int dp[][][];
+    int dp[][][][];
     public int cherryPickup(int[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
-        dp = new int[n + 1][m + 1][m + 1];
-        
-        for(int i = n - 1; i >= 0; i--)
+
+        dp = new int[n + 1][m + 1][n + 1][m + 1];
+
+        for(int i[][][]: dp)
         {
-            for(int j1 = m - 1; j1 >=0 ; j1--)
+            for(int j[][]: i)
             {
-                for(int j2 = 0; j2 < m; j2++) 
+                for(int k[]: j)
                 {
-                    if(j2 == 0) continue;
-                    int res = 0;
-                    res += grid[i][j1];
-                    res += grid[i][j2];
-                    
-                    int max = 0;
-                    for(int k1 = j1- 1; k1 <= j1 + 1; k1++)
-                    {
-                        for(int k2 = j2 - 1; k2 <= j2 + 1; k2++)
-                        {
-                            if(k1 < k2 && k2 >= 0 && k1 >= 0)
-                            {
-                                max =  Math.max(max, dp[i + 1][k1][k2]);
-                            }
-                        }
-                    }
-                    res += max;
-                    dp[i][j1][j2]= res;
+                    Arrays.fill(k, -1);
                 }
             }
         }
-        return dp[0][0][m-1];
-        //return solve(0,0,m-1,grid);
+
+        return solve(0,0,0,m - 1, grid,n,m);
     }
-    public int solve(int i,int j1,int j2,int[][] grid)
+    public int solve(int r1,int c1,int r2,int c2,int[][] grid,int n,int m)
     {
-        if(i < 0 || j1 >= grid[0].length || j2 >= grid[0].length || j1 < 0 || j2 < 0) return 0;
+        int di[] ={1,1,1};
+        int dj[] ={-1,0,1};
 
-        if(i == grid.length) return 0;
-
-        if(dp[i][j1][j2] != -1) return dp[i][j1][j2]; 
-
-        int res = 0;
-        res += grid[i][j1];
-        res += grid[i][j2];
-        
-        int max = 0;
-        for(int k1 = j1- 1; k1 <= j1 + 1; k1++)
+        int cherry = 0;
+        if(r1 == r2 && c1 == c2)
         {
-            for(int k2 = j2 - 1; k2 <= j2 + 1; k2++)
+            cherry += grid[r1][c1];
+        }else{
+            cherry += grid[r1][c1] + grid[r2][c2];
+        }
+        if(dp[r1][c1][r2][c2] != -1) return dp[r1][c1][r2][c2];
+        int ans = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            int nr1 = r1 + di[i];
+            int nc1 = c1 + dj[i];
+            for(int j = 0; j < 3; j++)
             {
-                if(k1 < k2)
-                {
-                    max =  Math.max(max, solve(i + 1, k1, k2, grid));
-                }
+                int nr2 = r2 + di[j];
+                int nc2 = c2 + dj[j];
+                if(nr1 >= n || nr2 >= n || nc1 < 0 || nc2 < 0 || nc1 >= m || nc2 >= m) continue;
+                
+                ans = Math.max(ans, solve(nr1,nc1,nr2,nc2, grid,n,m));
             }
         }
-        res += max;
-        return dp[i][j1][j2]= res;
+        return dp[r1][c1][r2][c2] = cherry + ans;
     }
 }
