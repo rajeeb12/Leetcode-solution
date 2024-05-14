@@ -21,7 +21,6 @@ class Solution {
         if(r1 >= n || r2 >= n || c1 >= n || c2 >= n || grid[r1][c1] == -1 || grid[r2][c2] == -1) return Integer.MIN_VALUE;
         
         if(r1 == n - 1 && c1 == n - 1) return grid[r1][c1];
-        if(r2 == n - 1 && c2 == n - 1) return grid[r2][c2];
 
         if(dp[r1][c1][r2][c2] != -1) return dp[r1][c1][r2][c2];
         
