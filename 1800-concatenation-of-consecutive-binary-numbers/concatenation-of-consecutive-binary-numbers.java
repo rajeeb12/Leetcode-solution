@@ -6,7 +6,8 @@ class Solution {
 
         for(int i = 2; i <= n; i++)
         {
-            ans = ((ans << (Integer.toBinaryString(i).length()) % mod ) + i ) % mod;
+            int len = (int) (Math.floor( Math.log(i) / Math.log(2)) + 1 );
+            ans = ((ans << (len) % mod ) + i ) % mod;
         }
         return (int) ans;
     }
