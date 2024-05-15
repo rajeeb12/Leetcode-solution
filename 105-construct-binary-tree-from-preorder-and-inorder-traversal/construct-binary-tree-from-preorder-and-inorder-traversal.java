@@ -22,7 +22,7 @@ class Solution {
         {
             map.put(inorder[i] , i);
         }
-        return solve(preorder,0,np-1, inorder, 0 , ni -1, map);
+        return solve(preorder,0,np-1, inorder, 0 , ni - 1, map);
     }
     public TreeNode solve(int[] preorder,int ps,int pe,int[] inorder,int is,int ie,HashMap<Integer,Integer> map)
     {
@@ -32,7 +32,7 @@ class Solution {
 
         int index = map.get(preorder[ps]);
         int remLeft = index - is;
-        root.left = solve(preorder, ps + 1, ps + remLeft + 1, inorder,is , index - 1, map); 
+        root.left = solve(preorder, ps + 1, ps + remLeft , inorder,is , index - 1, map); 
         root.right = solve(preorder, ps + remLeft +1, pe, inorder, index + 1 , ie, map);
         return root; 
     }
