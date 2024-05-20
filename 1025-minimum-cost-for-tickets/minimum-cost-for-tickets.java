@@ -1,11 +1,29 @@
 class Solution {
     int dp[];
     public int mincostTickets(int[] days, int[] costs) {
-        dp = new int[days.length];
-        Arrays.fill(dp, -1);
+        int n = days.length;
+        dp = new int[days.length + 1];
+        //Arrays.fill(dp, -1);
 
-        int ans = solve(costs, days,0);
-        return (ans == (int)1e9 ? 0: ans);
+        for(int skip = n - 1; skip >= 0; skip--)
+        {
+            int oneDay = costs[0] + dp[skip + 1];
+
+            int i;
+            for(i = skip; i < n && days[i] < days[skip] + 7; i++);
+
+            int sevenDay = costs[1] + dp[i];
+
+            for(i = skip; i < n && days[i] < days[skip] + 30; i++);
+
+            int thirtyDay = costs[2] + dp[i];
+
+            dp[skip] = Math.min(oneDay, Math.min(sevenDay, thirtyDay));
+        }
+        return dp[0];
+
+        //int ans = solve(costs, days,0);
+        //return (ans == (int)1e9 ? 0: ans);
     }
     public int solve(int[] costs,int[] days,int skip)
     {
