@@ -3,14 +3,10 @@ public class Solution {
     public int reverseBits(int n) {
         int ans = 0;
 
-        for(int i = 0 ; i < 32; i++)
+        for(int i = 0; i < 32; i++)
         {
             int bit = (n >> i) & 1;
-            if(bit != 0)
-            {
-                int num = 1 << (32 - i - 1);
-                ans ^= num;
-            }
+            ans = ans | (bit << (31-i));
         }
         return ans;
     }
