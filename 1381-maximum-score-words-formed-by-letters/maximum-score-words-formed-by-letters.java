@@ -1,32 +1,31 @@
 class Solution {
     public int maxScoreWords(String[] words, char[] letters, int[] score) {
-        if (words == null || words.length == 0 || letters == null || letters.length == 0 || score == null || score.length == 0) return 0;
-        int[] count = new int[score.length];
-        for (char ch : letters) {
-            count[ch - 'a']++;
+        int count[] = new int[26];
+        for(char c: letters){
+            count[c-'a']++;
         }
-        int res = backtrack(words, count, score, 0);
-        return res;
+        return solve(0, words,letters,score,count);
     }
-    int backtrack(String[] words, int[] count, int[] score, int index) {
-        int max = 0;
-        for (int i = index; i < words.length; i++) {
-            int res = 0;
-            boolean isValid = true;
-            for (char ch : words[i].toCharArray()) {
-                count[ch - 'a']--;
-                res += score[ch - 'a'];
-                if (count[ch - 'a'] < 0) isValid = false;
-            }
-            if (isValid) {
-                res += backtrack(words, count, score, i + 1);
-                max = Math.max(res, max);
-            }
-            for (char ch : words[i].toCharArray()) {
-                count[ch - 'a']++;
-                res = 0;
-            }
+    public int solve(int index,String[] words,char[] letters,int[] score,int[] count){
+        if(index == words.length) return 0;
+
+        int take = 0, noTake = 0;
+        int sum = 0;
+        boolean isValid = true;
+        for(char c: words[index].toCharArray()){
+            if(count[c-'a'] == 0) isValid = false;
+            
+            sum += score[c-'a'];
+            count[c-'a']--;
         }
-        return max;
+        if(isValid){
+            take = sum + solve(index + 1,words,letters,score,count);
+        }
+        for(char c: words[index].toCharArray()){
+            count[c-'a']++;
+        }
+        noTake = solve(index + 1, words,letters, score, count);
+
+        return Math.max(noTake, take);
     }
 }
