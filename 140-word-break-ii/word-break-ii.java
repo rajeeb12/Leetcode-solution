@@ -16,7 +16,8 @@ class Solution {
             return;
         }
 
-        for(int i = index; i < s.length(); i++){
+        for(int i = index; i < s.length(); i++)
+        {
             String substr = s.substring(index, i + 1);
             if(set.contains(substr)){
                 solve(i + 1, s,set, ans, temp+substr+" ");
