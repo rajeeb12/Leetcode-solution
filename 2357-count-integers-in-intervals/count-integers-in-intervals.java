@@ -10,7 +10,7 @@ class CountIntervals {
         int l = left;
         int r = right;
         
-        while(!(map.floorKey(r) == null) && (map.get(map.floorKey(r )) >= l))
+        while((map.floorKey(r) != null) && (map.get(map.floorKey(r)) >= l))
         {
             int minL= map.floorKey(r);
             int maxR = map.get(minL);
