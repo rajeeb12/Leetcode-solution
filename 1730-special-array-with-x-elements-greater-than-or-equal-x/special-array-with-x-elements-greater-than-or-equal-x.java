@@ -1,6 +1,6 @@
 class Solution {
     public int specialArray(int[] nums) {
-        
+        Arrays.sort(nums);
         int low = 0 , high = 1000;
         while(low <= high){ 
             int mid = (low + high) >> 1;
@@ -17,10 +17,15 @@ class Solution {
     }
     public int getCount(int num,int nums[]){
         int count = 0;
-        
-        for(int it: nums){
-            if(it >= num) count++;
+        int low = 0, high = nums.length - 1;
+        while(low <= high){
+            int mid = (low + high) >> 1;
+            if(nums[mid] >= num){
+                high = mid - 1;
+            }else{
+                low = mid + 1;
+            }
         }
-        return count;    
+        return nums.length - low;    
     }
 }
