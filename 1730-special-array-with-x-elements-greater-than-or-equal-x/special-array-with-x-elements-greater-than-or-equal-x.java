@@ -1,13 +1,26 @@
 class Solution {
     public int specialArray(int[] nums) {
         
-        for(int i = 0; i <= 1000 ; i++){
-            int count = 0;
-            for(int it: nums){
-                if(it >= i) count++;
+        int low = 0 , high = 1000;
+        while(low <= high){ 
+            int mid = (low + high) >> 1;
+            int count = getCount(mid, nums);
+            if(mid == count){
+                return mid;
+            }else if(count > mid){
+                low = mid + 1;
+            }else{
+                high = mid - 1;
             }
-            if(count == i) return i;
         }
         return -1;
+    }
+    public int getCount(int num,int nums[]){
+        int count = 0;
+        
+        for(int it: nums){
+            if(it >= num) count++;
+        }
+        return count;    
     }
 }
