@@ -1,20 +1,21 @@
 class Solution {
     public int countTriplets(int[] arr) {
-
         int count = 0;
+        
         int n = arr.length;
-        for(int i = 0; i < n; i++){
-            for(int j = i + 1; j < n; j++){
-                int a = 0 , b = 0;
-                for(int l = i; l < j; l++){
-                    a ^= arr[l];
-                }
-                for(int m = j; m <= n - 1; m++){
-                    b ^= arr[m];
-                    if(b == a) count++;
+        int prefix[] = new int[n + 1];
+        prefix[1] = arr[0];
+        for(int i = 1; i < n; i++){
+            prefix[i + 1] = prefix[i] ^ arr[i];
+        }
+        int ans = 0;
+        for(int i = 0; i <= n; i++){
+            for(int k = i + 1; k <= n; k++){
+                if(prefix[i] == prefix[k]){
+                    ans += k - i - 1;
                 }
             }
         }
-        return count;   
+        return ans;   
     } 
 }
