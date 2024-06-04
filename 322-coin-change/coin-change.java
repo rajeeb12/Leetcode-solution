@@ -3,10 +3,22 @@ class Solution {
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
         dp = new int[n + 1][amount + 1];
-        for(int i[]: dp) Arrays.fill(i, -1);
+        for(int i[] : dp) Arrays.fill(i, (int)1e9);
+        
+        dp[n][0] = 0;
+        for(int amt = 0; amt <= amount; amt++){
+            for(int i = n - 1; i >= 0; i--){
+                int notPick = dp[i + 1][amt];
+                int pick = (int)1e9;
+                if(coins[i] <= amt){
+                    pick = 1 + dp[i][amt - coins[i]];
+                }
+                dp[i][amt] = Math.min(pick , notPick);
+            }
+        }
+        return (dp[0][amount] == (int)1e9 ? -1 : dp[0][amount]);
 
-        int ans = solve(0,coins,amount);
-        return (ans == (int)1e9 ? -1 : ans);
+        //return (ans == (int)1e9 ? -1 : ans);
     }
     public int solve(int index,int[] coins,int amount)
     {
