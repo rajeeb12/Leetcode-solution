@@ -1,11 +1,23 @@
 class Solution {
     int dp[];
-    public int combinationSum4(int[] nums, int target) {
+    public int combinationSum4(int[] nums, int tar) {
         int n = nums.length;
-        dp = new int[target + 1];
-        Arrays.fill(dp, -1);
+        dp = new int[tar + 1];
 
-        return solve(target, nums);
+        dp[0] = 1;
+
+        for(int target = 1; target <= tar; target++){
+            int sum = 0;
+            for(int j = 0; j < nums.length; j++)
+            {
+                int pick = 0; 
+                if(nums[j] <= target) pick = dp[target - nums[j]];
+                sum += pick;
+            }
+            dp[target] = sum;
+        }
+        return dp[tar];
+        //return solve(target, nums);
     }
     public int solve(int target,int[] nums){
         if(target == 0) return 1;
