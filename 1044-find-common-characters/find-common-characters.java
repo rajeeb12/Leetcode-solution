@@ -2,23 +2,25 @@ class Solution {
     public List<String> commonChars(String[] words) {
         int n = words.length;
         List<String> ans = new ArrayList<>();
-        HashMap<Character, Integer> map = new HashMap<>();
+        int[] map = new int[26];
 
         for(char c: words[0].toCharArray()){
-            map.put(c, map.getOrDefault(c, 0) + 1);
+            map[c-'a']++;
         }
         
-        for(Map.Entry<Character,Integer> e: map.entrySet()){
+        for(int alphabet = 0; alphabet < 26; alphabet++){
+            if(map[alphabet] == 0) continue;
+
             boolean isValid = true;
-            int min = e.getValue();
+            int min = map[alphabet];
             for(int i = 1; i < n; i++){
                 int m[] = new int[26];
                 for(char c: words[i].toCharArray())
                 {
                     m[c-'a']++;
                 }
-                if(m[e.getKey()- 'a'] != 0){
-                    min = Math.min(min, m[e.getKey() - 'a']);
+                if(m[alphabet] != 0){
+                    min = Math.min(min, m[alphabet]);
                     continue;
                 }else{
                     isValid = false;
@@ -27,7 +29,7 @@ class Solution {
             }
             if(isValid){
                 for(int i = 0; i < min; i++){
-                    ans.add(e.getKey()+"");
+                    ans.add((char)(alphabet + 'a')+"");
                 }
             }
         }
