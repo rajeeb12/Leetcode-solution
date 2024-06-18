@@ -1,22 +1,18 @@
 class Solution {
-    int dp[][];
-    public int maxSatisfaction(int[] satisfaction) {
-        Arrays.sort(satisfaction);
-        int n = satisfaction.length;
-        dp = new int[n + 1][n + 2];
-        for(int i[]: dp) Arrays.fill(i, -1);
-        
-        return solve(0,1,satisfaction);
-    }
-    public int solve(int index,int count,int[] s){
-        if(index == s.length ) return 0;
+    public int maxSatisfaction(int[] s) {
+        Arrays.sort(s);
+        int n = s.length;
+        int prefix[] = new int[1];
+        int curSum = s[n - 1];
+        prefix[0] = s[n - 1];
+        for(int i = n - 2; i >= 0; i--){
 
-        if(dp[index][count] != -1) return dp[index][count];
+            prefix[0] += s[i]; 
+            
+            if(prefix[0] < 0) break;
 
-        int ans = 0;
-        for(int i = index; i < s.length; i++){
-            ans = Math.max(ans, s[i] * count + solve(i + 1, count + 1, s));
+            curSum += prefix[0];
         }
-        return dp[index][count] = ans;
+        return ( curSum < 0 ? 0 : curSum );
     }
 }
