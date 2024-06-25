@@ -14,19 +14,12 @@
  * }
  */
 class Solution {
-    int sum;
+    int pre = 0;
     public TreeNode bstToGst(TreeNode root) {
-        sum = 0;
-        solve(root);
+        if(root == null) return root;
+        if(root.right != null) bstToGst(root.right);
+        pre = root.val = pre + root.val;
+        if(root.left != null) bstToGst(root.left);
         return root;
-    }
-    public void solve(TreeNode root)
-    {
-        if(root == null) return;
-
-        solve(root.right);
-        sum += root.val;
-        root.val = sum;
-        solve(root.left);
     }
 }
