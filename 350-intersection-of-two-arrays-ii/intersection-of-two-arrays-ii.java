@@ -1,26 +1,33 @@
 class Solution {
     public int[] intersect(int[] nums1, int[] nums2) {
-        if(nums1.length < nums2.length) return intersect(nums2, nums1);
-        HashMap<Integer,Integer> map = new HashMap<>();
-
-        for(int i : nums1)
-        {
-            map.put(i, map.getOrDefault(i, 0) + 1);
+        int max = 0;
+        for(int i: nums1) max = Math.max(max, i);
+        int hash1[] = new int[max + 1];
+        int hash2[] = new int[max + 1]; 
+        for(int i = 0; i < nums1.length; i++){
+            hash1[nums1[i]]++;
+        } 
+        for(int i = 0; i < nums2.length; i++){
+            if(nums2[i] > max) continue;
+            hash2[nums2[i]]++;
         }
-        
-        ArrayList<Integer> ans = new ArrayList<>();
-        for(int item: nums2){
-            if(map.containsKey(item) &&  map.get(item) > 0)
+        ArrayList<Integer> ls = new ArrayList<>();
+        for(int  i = 0; i <= max; i++){
+            
+            if(hash1[i] == 0 || hash2[i] == 0) continue;
+            
+            int occurences = Math.min(hash1[i], hash2[i]);
+            
+            for(int j = 0; j < occurences; j++)
             {
-                ans.add(item);
-                map.put(item, map.get(item) - 1);
+                ls.add(i);
             }
         }
-        int res[]= new int[ans.size()];
-        for(int i = 0 ; i < ans.size() ; i++)
-        {
-            res[i] = ans.get(i);
+        int ans[] = new int[ls.size()];
+        int index = 0;
+        for(int i = 0; i < ls.size(); i++){
+            ans[index++] = ls.get(i);
         }
-        return res;
+        return ans;
     }
 }
