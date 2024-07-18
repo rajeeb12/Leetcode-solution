@@ -1,75 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-
     public String getDirections(TreeNode root, int startValue, int destValue) {
-        // Find the Lowest Common Ancestor (LCA) of start and destination nodes
-        TreeNode lowestCommonAncestor = findLowestCommonAncestor(
-            root,
-            startValue,
-            destValue
-        );
+        
+        TreeNode node = lca(root, startValue, destValue);
 
-        StringBuilder pathToStart = new StringBuilder();
-        StringBuilder pathToDest = new StringBuilder();
+        StringBuilder left = new StringBuilder();
+        StringBuilder right = new StringBuilder();
 
-        // Find paths from LCA to start and destination nodes
-        findPath(lowestCommonAncestor, startValue, pathToStart);
-        findPath(lowestCommonAncestor, destValue, pathToDest);
+        dfs(node, left, startValue);
+        dfs(node, right, destValue);
+        
+        // System.out.print(left);
 
-        StringBuilder directions = new StringBuilder();
-
-        // Add "U" for each step to go up from start to LCA
-        directions.append("U".repeat(pathToStart.length()));
-
-        // Append the path from LCA to destination
-        directions.append(pathToDest);
-
-        return directions.toString();
-    }
-
-    private TreeNode findLowestCommonAncestor(
-        TreeNode node,
-        int value1,
-        int value2
-    ) {
-        if (node == null) return null;
-
-        if (node.val == value1 || node.val == value2) return node;
-
-        TreeNode leftLCA = findLowestCommonAncestor(node.left, value1, value2);
-        TreeNode rightLCA = findLowestCommonAncestor(
-            node.right,
-            value1,
-            value2
-        );
-
-        if (leftLCA == null) return rightLCA;
-        else if (rightLCA == null) return leftLCA;
-        else return node; // Both values found, this is the LCA
-    }
-
-    private boolean findPath(
-        TreeNode node,
-        int targetValue,
-        StringBuilder path
-    ) {
-        if (node == null) return false;
-
-        if (node.val == targetValue) return true;
-
-        // Try left subtree
-        path.append("L");
-        if (findPath(node.left, targetValue, path)) {
-            return true;
+        String ans ="";
+        for(int i = 0; i < left.length(); i++)
+        {
+            ans += 'U';
         }
-        path.setLength(path.length() - 1); // Remove last character
+        return (ans + right.toString());
+    }
+    public boolean dfs(TreeNode root, StringBuilder s,int value)
+    {
+        if(root == null) return false;
+        
+        if(root.val == value) return true;
+        
+        s.append('L');
+       
+        if(dfs(root.left, s , value)) return true;
 
-        // Try right subtree
-        path.append("R");
-        if (findPath(node.right, targetValue, path)) {
-            return true;
-        }
-        path.setLength(path.length() - 1); // Remove last character
+        s.deleteCharAt(s.length() - 1);
+        
+        s.append('R');
+        
+        if(dfs(root.right, s, value)) return true;
 
+        s.deleteCharAt(s.length() - 1);
         return false;
+    }
+    public TreeNode lca(TreeNode root,int s,int d){
+        if(root == null) return root;
+
+        if(root.val == s || root.val == d) return root;
+
+        TreeNode left = lca(root.left, s, d);
+        TreeNode right = lca(root.right, s, d);
+
+        if(left == null)
+        {
+            return right;
+        }else if(right == null){
+            return left;
+        }
+        return root;
     }
 }
