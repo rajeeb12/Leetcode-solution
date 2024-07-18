@@ -13,14 +13,7 @@
  *     }
  * }
  */
-class Pair{
-    TreeNode node;
-    int level;
-    Pair(TreeNode _n,int _l){
-        this.node = _n;
-        this.level = _l;
-    }
-}
+
 class Solution {
     public int countPairs(TreeNode root, int distance) {
         HashMap<TreeNode , TreeNode> map = new HashMap<>();
@@ -35,20 +28,18 @@ class Solution {
     }
     public int bfs(TreeNode node, HashMap<TreeNode, TreeNode> map,int distance){
         HashSet<TreeNode> set = new HashSet<>();
-        Queue<Pair> q = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<>();
 
-        q.add(new Pair(node , 0));
+        q.add(node);
         set.add(node);
+        int level = 0;
         
         int count = 0;
         while(!q.isEmpty()){
             int size = q.size();
             for(int i = 0; i < size; i++)
             {
-                Pair temp = q.poll();
-                int level = temp.level;
-                TreeNode root = temp.node;
-
+                TreeNode root = q.poll();
 
                 if(level <= distance)
                 {
@@ -58,17 +49,21 @@ class Solution {
                 if(map.get(root) != null && !set.contains(map.get(root)))
                 {
                     set.add(map.get(root));
-                    q.add(new Pair(map.get(root), level + 1));
+                    q.add(map.get(root));
                 }
-                if(root.left != null && !set.contains(root.left)){
+                if(root.left != null && !set.contains(root.left))
+                {
                     set.add(root.left);
-                    q.add(new Pair(root.left , level + 1));
+                    q.add(root.left);
                 }
-                if(root.right != null && !set.contains(root.right)){
+                if(root.right != null && !set.contains(root.right))
+                {
                     set.add(root.right);
-                    q.add(new Pair(root.right , level + 1));
+                    q.add(root.right);
                 }
             } 
+            level++;
+            if(level > distance) break;
         }
         return count;
     }
