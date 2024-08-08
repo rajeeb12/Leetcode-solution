@@ -4,14 +4,20 @@ class Solution {
         int right = 1, down = 1, left = 2, up = 2;
 
         int totalElement = rows * cols;
-        temp.add(new int[]{rStart, cStart});
+        int ans[][]= new int[totalElement][2];
+        int index = 0;
+        ans[index][0] = rStart;
+        ans[index][1] = cStart;
+        index++;
         totalElement--;
         while(totalElement != 0){
             // right
             for(int r = 0; r < right; r++){
                 cStart += 1;
                 if( (rStart >= 0 &&  rStart < rows) &&  (cStart >= 0 && cStart < cols)){
-                    temp.add(new int[]{rStart , cStart});
+                    ans[index][0] = rStart;
+                    ans[index][1] = cStart;
+                    index++;
                     totalElement--;
                 } 
             }
@@ -21,7 +27,9 @@ class Solution {
                 rStart += 1;
                 if((rStart >= 0 &&  rStart < rows) &&  (cStart >= 0 && cStart < cols))
                 {
-                    temp.add(new int[]{rStart , cStart});
+                    ans[index][0] = rStart;
+                    ans[index][1] = cStart;
+                    index++;
                     totalElement--;
                 } 
             }
@@ -30,7 +38,9 @@ class Solution {
             for(int l = 0; l < left; l++){
                 cStart -= 1;
                 if((rStart >= 0 &&  rStart < rows) &&  (cStart >= 0 && cStart < cols)){
-                    temp.add(new int[]{rStart , cStart});
+                    ans[index][0] = rStart;
+                    ans[index][1] = cStart;
+                    index++;
                     totalElement--;
                 } 
             }
@@ -40,19 +50,21 @@ class Solution {
                 rStart -= 1;
                 if((rStart >= 0 &&  rStart < rows) &&  (cStart >= 0 && cStart < cols))
                 {
-                    temp.add(new int[]{rStart , cStart});
+                    ans[index][0] = rStart;
+                    ans[index][1] = cStart;
+                    index++;
                     totalElement--;
                 } 
             }
             up += 2;
         }
-        int ans[][] = new int[temp.size()][2];
-        int index = 0;
-        for(int i[]: temp){
-            ans[index][0] = i[0];
-            ans[index][1] = i[1];
-            index++;
-        } 
+        // int ans[][] = new int[temp.size()][2];
+        // int index = 0;
+        // for(int i[]: temp){
+        //     ans[index][0] = i[0];
+        //     ans[index][1] = i[1];
+        //     index++;
+        // } 
         return ans;
     }
 }
