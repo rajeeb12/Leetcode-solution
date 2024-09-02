@@ -1,24 +1,57 @@
+class Pair{
+    int node;
+    double wt;
+    public Pair(int _n,double _wt){
+        this.node = _n;
+        this.wt = _wt;
+    }
+}
 class Solution {
-    public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
-        Map<Integer, List<int[]>> g = new HashMap<>();
-        for (int i = 0; i < edges.length; ++i) {
-            int a = edges[i][0], b = edges[i][1];
-            g.computeIfAbsent(a, l -> new ArrayList<>()).add(new int[]{b, i});
-            g.computeIfAbsent(b, l -> new ArrayList<>()).add(new int[]{a, i});
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node) {
+        List<List<Pair>> adj = new ArrayList<>();
+
+        for(int i = 0; i < n; i++){
+            adj.add(new ArrayList<>());
         }
-        double[] p = new double[n];
-        p[start] = 1d;
-        Queue<Integer> q = new LinkedList<>(Arrays.asList(start));
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            for (int[] a : g.getOrDefault(cur, Collections.emptyList())) {
-                int neighbor = a[0], index = a[1];
-                if (p[cur] * succProb[index] > p[neighbor]) {
-                    p[neighbor] = p[cur] * succProb[index];
-                    q.offer(neighbor);
+        for(int i = 0; i < edges.length; i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            double wt = succProb[i];
+
+            adj.get(u).add(new Pair(v, wt));
+            adj.get(v).add(new Pair(u, wt));
+        }
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> Double.compare(b.wt, a.wt));
+        double ans[] = new double[n];
+        pq.add(new Pair(start_node, 1));
+        ans[start_node] = 1;
+        
+        while(!pq.isEmpty()){
+            int size = pq.size();
+
+            for(int i = 0; i < size; i++){
+                Pair p = pq.poll();
+                int node = p.node;
+                double wt = p.wt;
+                if(node == end_node)
+                {
+                    return wt;
+                }
+
+                for(Pair pp: adj.get(node))
+                {
+                    int adjnode = pp.node;
+                    double adjwt = pp.wt;
+                    if(ans[adjnode] < wt * adjwt)
+                    {
+                        ans[adjnode] = wt * adjwt;
+                        pq.add(new Pair(adjnode, ans[adjnode]));
+                    }
                 }
             }
         }
-        return p[end];
+        return 0;
     }
+    
 }
