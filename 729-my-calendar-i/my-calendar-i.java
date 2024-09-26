@@ -1,15 +1,17 @@
 class MyCalendar {
-    List<int[]> ls;
+    TreeSet<int[]> set;
     public MyCalendar() {
-        ls = new ArrayList<>();
+        set = new TreeSet<>((a,b) -> a[0] - b[0]);
     }
     
     public boolean book(int start, int end) {
-        for(int[] it: ls){
-            if(Math.max(it[0], start) < Math.min(it[1] , end)) return false;
-        }
-
-        ls.add(new int[]{start, end});
+        int book[] = new int[]{start, end};
+        int[] floor = set.floor(book);
+        int[] ceil = set.ceiling(book);
+        if(floor != null && start < floor[1]) return false;
+        if(ceil != null && ceil[0] < end) return false;
+        
+        set.add(book);
         return true;
     }
 }
