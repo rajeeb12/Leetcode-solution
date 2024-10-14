@@ -1,28 +1,19 @@
 class Solution {
     public int maxWidthRamp(int[] nums) {
-        List<Integer> ls = new ArrayList<>();
-        int ans = 0;
         int n = nums.length;
-        for(int i = 0; i < n; i++){
-            if(ls.size() == 0 || nums[i] < nums[ls.get(ls.size() - 1)])
-            {
-                ls.add(i);
-            }else{
-                int low = 0, high = ls.size() - 1;
-                int pans = -1;
-                while(low <= high)
-                {
-                    int mid = (low + high) >> 1;
-                    if(nums[ls.get(mid)] <= nums[i]){
-                        pans = ls.get(mid);
-                        high = mid - 1;
-                    }else{
-                        low = mid + 1;
-                    }
-                }
+        int max[] = new int[n];
+        max[n - 1] = nums[n - 1];
+        for(int i = n - 2; i >= 0; i--){
+            max[i] = Math.max(max[i + 1] , nums[i]);
+        }
 
-                if(pans != -1) ans = Math.max(ans, i - pans);
-            }
+        int p1 = 0;
+        int ans = 0;
+        for(int p2 = 1; p2 < n; p2++){
+            
+            while(p1 < p2 && nums[p1] > max[p2]) p1++;
+
+            ans = Math.max(ans, p2 - p1);  
         }
         return ans;
     }
