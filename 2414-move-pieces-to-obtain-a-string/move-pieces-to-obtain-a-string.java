@@ -10,6 +10,10 @@ class Solution {
             while(j < n && target.charAt(j) == '_'){
                 j++;
             }
+            if(i == n && j == n) return true;
+            
+            if(start.charAt(i) != '_' && start.charAt(i) != target.charAt(j)) return false;
+
             if(i < n && j < n){
                 if(start.charAt(i) == 'L' && i < j) return false;
                 if(start.charAt(i) == 'R' && i > j) return false;
