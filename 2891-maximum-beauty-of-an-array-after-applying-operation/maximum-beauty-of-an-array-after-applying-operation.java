@@ -1,27 +1,28 @@
 class Solution {
     public int maximumBeauty(int[] nums, int k) {
-        Deque<int[]> q = new ArrayDeque<>();
         int n = nums.length;
-        int arr[][] = new int[n][2];
+        Arrays.sort(nums);
 
-        
+        int max = 0;
         for(int i = 0; i < n; i++){
-            arr[i][0] = nums[i] - k;
-            arr[i][1] = nums[i] + k;
+            int x = nums[i] + (2 * k);
+            int index = solve(nums, x);
+
+            max = Math.max(max, index - i + 1);
         }
-        Arrays.sort(arr, (a, b) -> a[0] - b[0]);
-
-        q.add(new int[]{arr[0][0], arr[0][1]});
-        int ans = 1;
-
-        for(int i = 1; i < n; i++)
-        {
-            while(!q.isEmpty() && arr[i][0] > q.peekFirst()[1]){
-                q.pollFirst();
+        return max;
+    }
+    public int solve(int nums[],int x){
+        int i = 0, j = nums.length - 1;
+        int ans = 0;
+        while(i <= j){
+            int mid = (i + j) >> 1;
+            if(nums[mid] <= x){
+                ans = mid;
+                i = mid + 1;
+            }else{
+                j = mid - 1;
             }
-            q.add(new int[]{arr[i][0], arr[i][1]});
-
-            ans = Math.max(ans, q.size());
         }
         return ans;
     }
