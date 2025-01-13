@@ -1,15 +1,19 @@
 class Solution {
     public int minimumLength(String s) {
-        int map[] = new int[26];
+        int n = s.length(), del = 0;
+        Map<Character, Integer> mp = new HashMap<>();
 
-        for(char c: s.toCharArray()){
-            map[c-'a']++;
-            if(map[c-'a'] >= 3){
-                map[c-'a'] = 1;
-            }
+        // Count the frequency of each character
+        for (int i = 0; i < n; i++) {
+            mp.put(s.charAt(i), mp.getOrDefault(s.charAt(i), 0) + 1);
         }
-        int ans = 0;
-        for(int i: map) ans += i;
-        return ans;
+
+        // Calculate the number of characters to be removed
+        for (Map.Entry<Character, Integer> entry : mp.entrySet()) {
+            int f = entry.getValue();
+            del += (f % 2 == 1) ? f - 1 : f - 2;
+        }
+
+        return n - del;
     }
 }
