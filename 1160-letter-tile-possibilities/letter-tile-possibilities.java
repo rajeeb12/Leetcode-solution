@@ -1,31 +1,18 @@
 class Solution {
     public int numTilePossibilities(String tiles) {
-        if(tiles.length() == 0) return 0;
-        char arr[] = tiles.toCharArray();
-        HashSet<String> set = new HashSet<>();
-        solve(0, arr, set);
-        return set.size();
+        int arr[] = new int[26];
+        for(char c: tiles.toCharArray()) arr[c-'A']++;
+        int ans[] = new int[1];
+        solve(arr, ans);
+        return ans[0];
     }
-    public void solve(int index,char arr[],HashSet<String> set){
-        for(int i = index; i < arr.length; i++){
-            swap(index, i, arr);
-            String s = new String(arr);
-            totalUnique(s, set);
-            solve(index + 1, arr, set);
-            swap(index, i, arr);
+    public void solve(int arr[], int ans[]){
+        for(int i = 0; i < 26; i++){
+            if(arr[i] == 0) continue;
+            ans[0]++;
+            arr[i]--;
+            solve(arr, ans);
+            arr[i]++;
         }
-    }
-    public void totalUnique(String s, HashSet<String> set){
-        for(int i = 0; i < s.length(); i++){
-            for(int j = i + 1; j <= s.length(); j++){
-                String substr = s.substring(i,j);
-                set.add(substr);
-            }
-        }
-    }
-    public void swap(int i,int j,char arr[]){
-        char temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp; 
     }
 }
