@@ -1,48 +1,41 @@
 class Solution {
-    public int[] findOrder(int numCourses, int[][] p) {
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        int inDegree[] = new int[numCourses];
-        
-        for(int i = 0; i <numCourses; i++)
-        {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> adj = new ArrayList<>();
+        int inorder[] = new int[numCourses];
+        for(int i = 0; i < numCourses; i++){
             adj.add(new ArrayList<>());
         }
-        for(int i[]: p)
-        {
-            int u = i[0];
-            int v = i[1];
-            adj.get(u).add(v);
-            inDegree[v]++;
+        for(int i[]: prerequisites){
+            adj.get(i[1]).add(i[0]);
+            inorder[i[0]]++;
         }
         Queue<Integer> q = new LinkedList<>();
-        for(int i = 0 ; i < numCourses; i++)
-        {
-            if(inDegree[i] == 0) q.add(i);
+        for(int i = 0; i < numCourses; i++){
+            if(inorder[i] == 0) q.add(i);
         }
-        ArrayList<Integer> ans = new ArrayList<>();
-
-        while(!q.isEmpty())
-        {
-            int node =q.poll();
-
-            ans.add(node);
-            for(int adjNode: adj.get(node))
-            {
-                inDegree[adjNode]--;
-                if(inDegree[adjNode] == 0)
-                {
-                    q.add(adjNode);
+        List<Integer> temp = new ArrayList<>();
+        
+        int index = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                int node = q.poll();
+                temp.add(node);
+                
+                for(int adjNode: adj.get(node)){
+                    inorder[adjNode]--;
+                    if(inorder[adjNode] == 0){
+                        q.add(adjNode);
+                    }
                 }
             }
         }
-        if(ans.size() != numCourses) return new int[]{};
+        
+        if(temp.size() != numCourses) return new int[]{};
 
         int res[] = new int[numCourses];
-        int index = 0;
-        for(int i = numCourses-1 ; i >= 0; i--)
-        {
-            res[index] = ans.get(i);
-            index++;
+        for(int i = 0; i < numCourses; i++){
+            res[i] = temp.get(i);
         }
         return res;
     }
