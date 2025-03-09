@@ -11,13 +11,9 @@ class Solution {
         while(j < n){
             if(blocks.charAt(j) == 'W'){
                 countW++;
-            }else if(blocks.charAt(j) == 'B'){
-                countB++;
             }
             if(blocks.charAt(i) == 'W'){
                 countW--;
-            }else if(blocks.charAt(i) == 'B'){
-                countB--;
             }
             ans = Math.min(ans, countW);
             i++;
