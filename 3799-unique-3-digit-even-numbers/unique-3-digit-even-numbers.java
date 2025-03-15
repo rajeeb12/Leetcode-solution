@@ -1,29 +1,20 @@
 class Solution {
     public int totalNumbers(int[] digits) {
-        int n = digits.length;
-        int visited[] = new int[10];
+        int count = 0;
         HashSet<Integer> set = new HashSet<>();
+
         for(int i = 0; i < digits.length; i++){
-            visited[i] = 1;
-            solve(digits,digits[i], 2, visited, set);
-            visited[i] = 0;
+            for(int j = 0; j < digits.length ; j++){
+                if(i == j)  continue;
+                for(int k = 0; k < digits.length; k++){
+                    if(i == k || j == k) continue;
+                    int num = digits[i] * 100 + digits[j] * 10 + digits[k];
+                    String s = num +"";
+                    if(s.length() == 3 && num % 2 == 0) set.add(num);
+                }
+            }
         }
         return set.size();
-    }
-    public void solve(int digit[],int num,int k,int visited[],HashSet<Integer> set){
-        if(k == 0){
-            String s = num +"";
-            if(s.length() == 3 && num % 2 == 0){
-                set.add(num);
-            }
-            return;
-        }
-
-        for(int i = 0; i < digit.length; i++){
-            if(visited[i] == 1) continue;
-            visited[i] = 1;
-            solve(digit, num * 10 + digit[i], k - 1, visited, set);
-            visited[i] = 0;
-        }
+        
     }
 }
