@@ -1,22 +1,25 @@
 class Solution {
-    public int trap(int[] h) {
-        int totalSum = 0 ;
-        int n = h.length;
-        int prefix[] = new int[n];
-        int suffix[] = new int[n];
-        prefix[0] = h[0];
-        suffix[n-1] = h[n-1];
+    public int trap(int[] height) {
+        // brute;
+        int ans = 0;
+        int n = height.length;
+        int left[] = new int[n];
+        int right[] = new int[n];
+        Stack<Integer> stack = new Stack<>();
+        int lmax = 0;
         
-        for(int i = 1 ; i < n ; i++)
-        {
-            prefix[i] = Math.max(h[i], prefix[i - 1] );
-            suffix[n - i - 1] = Math.max(h[n - i - 1], suffix[n - i]);
+        for(int i = 0; i < n; i++){
+            lmax = Math.max(lmax, height[i]);
+            left[i] = lmax;
         }
-
-        for(int i = 0 ; i < n ; i++)
-        {
-            totalSum += (Math.min(prefix[i] , suffix[i]) - h[i]);
+        int rmax = 0;
+        for(int i = n - 1; i >= 0; i--){
+            rmax = Math.max(rmax, height[i]);
+            right[i] = rmax;
         }
-        return totalSum;
+        for(int i = 0; i < n; i++){
+            ans += Math.min(left[i] , right[i]) - height[i];
+        }
+        return ans;
     }
 }
