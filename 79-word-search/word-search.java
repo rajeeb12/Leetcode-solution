@@ -5,8 +5,7 @@ class Solution {
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
                 if(board[i][j] == word.charAt(0)){
-                    int visited[][] = new int[m][n];
-                    if(check(i,j,1,visited, board, word)){
+                    if(check(i,j,1, board, word)){
                         return true;
                     }
                 }
@@ -14,11 +13,12 @@ class Solution {
         }
         return false;
     }
-    public boolean check(int row,int col,int index,int visited[][],char[][] board,String word){
+    public boolean check(int row,int col,int index,char[][] board,String word){
         
         if(index >= word.length()) return true;
         
-        visited[row][col] = 1;
+        char temp = board[row][col];
+        board[row][col] = '$';
 
         int di[] = {1,-1,0,0};
         int dj[] = {0,0,1,-1};
@@ -27,14 +27,17 @@ class Solution {
             int nextRow = row + di[k];
             int nextCol = col + dj[k];
 
-            if(nextRow >= 0 && nextCol >= 0 && nextRow < board.length && nextCol < board[0].length && board[nextRow][nextCol] == word.charAt(index) && visited[nextRow][nextCol] == 0 && check(nextRow, nextCol, index + 1, visited, board, word)){
+            if(isValid(nextRow, nextCol, board) && board[nextRow][nextCol] == word.charAt(index) && check(nextRow, nextCol, index + 1, board, word)){
                 return true;
             }
         }
         
-        visited[row][col] = 0;
+        board[row][col] = temp;
         
         return false;
-
+    }
+    public boolean isValid(int nextRow,int nextCol,char[][] board){
+        if(nextRow >= 0 && nextCol >= 0 && nextRow < board.length && nextCol < board[0].length) return true;
+        return false;
     }
 }
