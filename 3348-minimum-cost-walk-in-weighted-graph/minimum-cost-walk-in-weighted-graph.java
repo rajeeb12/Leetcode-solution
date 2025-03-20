@@ -17,21 +17,7 @@ class DisjointSet{
     }
 
     public void unionBySize(int u,int v){
-        int up = findParent(u);
-        int vp = findParent(v);
-
-        if(up == vp) return;
-
-        if(size[up] > size[vp]){
-            size[up] += size[vp];
-            parent[vp] = up;
-        }else if(size[vp] > size[up]){
-            size[vp] += size[up];
-            parent[up] = vp;
-        }else{
-            size[up] += size[vp];
-            parent[vp] = up;
-        }
+        parent[v] = u;
     }
 }
 class Solution {
@@ -47,14 +33,11 @@ class Solution {
 
             int upu = ds.findParent(u);
             int upv = ds.findParent(v);
-            if(upu == upv){
-                ans[upu] &= wt;
+            if(upu != upv){
+                ds.unionBySize(upu, upv);
+                ans[upu] &= ans[upv];
             }
-            int temp = ans[upu] & ans[upv];
-            ds.unionBySize(u, v);
-            int up = ds.findParent(u);
-            ans[up] = temp; 
-            ans[up] &= wt;
+            ans[upu] &= wt;
         }
 
         int finalAns[] = new int[query.length];
