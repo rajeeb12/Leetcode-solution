@@ -1,57 +1,46 @@
 class Solution {
     public int countCompleteComponents(int n, int[][] edges) {
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for(int i = 0; i < n; i++)
-        {
+        int visited[] = new int[n];
+        List<List<Integer>> adj = new ArrayList<>();
+
+        for(int i = 0; i < n; i++){
             adj.add(new ArrayList<>());
         }
-    
-        for(int e[]: edges)
-        {
-            int u = e[0];
-            int v = e[1];
+
+        for(int edge[]: edges){
+            int u = edge[0];
+            int v = edge[1];
             adj.get(u).add(v);
-            adj.get(v).add(u);
+            adj.get(v).add(u); 
         }
-        boolean visited[] = new boolean[n];
+
         int count = 0;
-        for(int i = 0; i < n; i++)
-        {
-            if(!visited[i] && solve(i,adj,visited))
-            {
-                count++;
-            }
+        for(int i = 0; i < n; i++){
+            if(visited[i] == 0 && bfs(i, visited, adj)) count++;
         }
         return count;
     }
-    public boolean solve(int node,ArrayList<ArrayList<Integer>> adj,boolean[] visited)
-    {
+    public boolean bfs(int node,int[] visited,List<List<Integer>> adj){
         Queue<Integer> q = new LinkedList<>();
         q.add(node);
-        visited[node] = true;
-        int count = adj.get(node).size();
-        boolean iscomponent = true;
-        int countneigh = 0;
-      
-        while(!q.isEmpty())
-        {
-            int size = q.size();
-            for(int i = 0 ; i < size; i++)
-            {
-                node = q.poll();
-                countneigh++;
-                for(int adjnode: adj.get(node))
-                {
-                    if(adj.get(adjnode).size() != count) return false;
-                    if(!visited[adjnode])
-                    {
-                        q.add(adjnode);
-                        visited[adjnode] = true;
+        int countNeighbor = 0;
+        int size = adj.get(node).size();
+        visited[node] = 1;
+        while(!q.isEmpty()){
+            int qsize = q.size();
+
+            for(int i = 0; i < qsize; i++){
+                int u = q.poll();
+                countNeighbor++;
+                for(int v: adj.get(u)){
+                    if(adj.get(v).size() != size) return false;
+                    if(visited[v] == 0){
+                        q.add(v);
+                        visited[v] = 1;
                     }
                 }
             }
-        }
-        return iscomponent && count == countneigh - 1; 
+        } 
+        return (size == countNeighbor - 1);
     }
-    
 }
