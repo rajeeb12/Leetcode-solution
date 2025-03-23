@@ -1,51 +1,46 @@
 class Pair{
     String str;
     int level;
-    public Pair(String _s,int _l)
-    {
-        this.str = _s;
-        this.level = _l;
+    public Pair(String _str,int _level){
+        this.str = _str;
+        this.level = _level;
     }
 }
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         HashSet<String> set = new HashSet<>();
-        Queue<Pair> q = new LinkedList<>();
-        for(String s: wordList)
-        {
-            set.add(s);
+        for(String word: wordList){
+            set.add(word);
         }
+
+        Queue<Pair> q = new LinkedList<>();
         q.add(new Pair(beginWord, 1));
-        set.remove(beginWord);
 
-        while(!q.isEmpty())
-        {
-            int size= q.size();
+        int ans = (int)1e9;
 
-            for(int i = 0 ; i < size; i++)
+        while(!q.isEmpty()){
+            Pair temp = q.poll();
+            if(temp.str.equals(endWord)){
+                ans = Math.min(ans, temp.level);
+            }
+            char arr[] = temp.str.toCharArray();
+            
+            for(int i = 0; i < arr.length; i++)
             {
-                Pair p = q.poll();
-                String s = p.str;
-                int level = p.level;
-
-                if(s.equals(endWord)) return level;
-
-                for(int j = 0 ; j < s.length(); j++)
-                {
-                    for(char ch= 'a' ; ch <= 'z'; ch++)
-                    {
-                        char[] charArray = s.toCharArray();
-                        charArray[j] = ch;
-                        String str = new String(charArray);
-                        if(set.contains(str))
-                        {
-                            set.remove(str);
-                            q.add(new Pair(str, level + 1));
-                        }
+                char prev = arr[i];
+                for(char ch= 'a'; ch <= 'z'; ch++){
+                    arr[i] = ch;
+                    String word = new String(arr);
+                    if(set.contains(word)){
+                        q.add(new Pair(word, temp.level + 1));
+                        set.remove(word);
                     }
                 }
+                arr[i] = prev;
             }
         }
-        return 0;
+        if(ans == (int)1e9) return 0;
+        return ans;
+
     }
 }
