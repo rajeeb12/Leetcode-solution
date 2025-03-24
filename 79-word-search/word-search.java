@@ -2,42 +2,38 @@ class Solution {
     public boolean exist(char[][] board, String word) {
         int m = board.length;
         int n = board[0].length;
+
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
                 if(board[i][j] == word.charAt(0)){
-                    if(check(i,j,1, board, word)){
-                        return true;
-                    }
+                    if(solve(i, j, board, word, 1)) return true;
                 }
             }
         }
         return false;
     }
-    public boolean check(int row,int col,int index,char[][] board,String word){
-        
-        if(index >= word.length()) return true;
-        
-        char temp = board[row][col];
-        board[row][col] = '$';
+    public boolean solve(int row,int col,char[][] board,String word,int index){
+
+        if(index == word.length()) return true;
 
         int di[] = {1,-1,0,0};
         int dj[] = {0,0,1,-1};
+        int m = board.length;
+        int n = board[0].length;
 
-        for(int k = 0; k < 4; k++){
-            int nextRow = row + di[k];
-            int nextCol = col + dj[k];
+        char original = board[row][col];
+        board[row][col] = '#';
 
-            if(isValid(nextRow, nextCol, board) && board[nextRow][nextCol] == word.charAt(index) && check(nextRow, nextCol, index + 1, board, word)){
+        for(int dir = 0; dir < 4; dir++){
+            int nextRow = row + di[dir];
+            int nextCol = col + dj[dir];
+
+            if(nextRow >= 0 && nextCol >= 0 && nextRow < m && nextCol < n && board[nextRow][nextCol] == word.charAt(index) && solve(nextRow, nextCol, board, word, index + 1)){
                 return true;
             }
         }
-        
-        board[row][col] = temp;
-        
-        return false;
-    }
-    public boolean isValid(int nextRow,int nextCol,char[][] board){
-        if(nextRow >= 0 && nextCol >= 0 && nextRow < board.length && nextCol < board[0].length) return true;
+
+        board[row][col] = original;
         return false;
     }
 }
