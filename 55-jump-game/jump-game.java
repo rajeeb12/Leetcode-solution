@@ -1,12 +1,14 @@
 class Solution {
     public boolean canJump(int[] nums) {
-        int n = nums.length;
-        int furJump = 0;
+        int maxIndex = 0;
 
-        for(int i = 0 ; i <= furJump && i < n; i++)
-        {
-            furJump = Math.max(furJump, i + nums[i]);
+        for(int i = 0; i < nums.length; i++){
+            int maxRight = i + nums[i];
+
+            if(maxIndex < i) return false;
+
+            maxIndex = Math.max(maxIndex, maxRight);
         }
-        return (furJump >= n - 1);
+        return true;
     }
 }
