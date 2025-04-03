@@ -3,8 +3,6 @@ class Solution {
         int n = nums.length;
         int leftMax[] = new int[n];
         int rightMax[] = new int[n];
-        leftMax[0] = nums[0];
-        rightMax[n - 1] = nums[n - 1];
 
         for(int i = 1; i < n - 1; i++){
             leftMax[i] = Math.max(nums[i - 1], leftMax[i - 1]);
