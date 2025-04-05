@@ -3,24 +3,21 @@ class Solution {
         int n = intervals.length;
         int startTime[] = new int[n];
         int endTime[] = new int[n];
-
-        int index = 0;
-        for(int interval[] : intervals){
-            startTime[index] = interval[0];
-            endTime[index] = interval[1];
-            index++;
+        
+        for(int index = 0;index < n; index++){
+            startTime[index] = intervals[index][0];
+            endTime[index] = intervals[index][1];
         }
-
         Arrays.sort(startTime);
         Arrays.sort(endTime);
-        int i = 0, j = 0;
-        int count = 0, max = 0;
+        int count = 0, max=0;
 
-        while(i < n && j < n){
+        for(int i = 0, j = 0; i < n && j < n;){
             if(startTime[i] < endTime[j]){
                 count++;
                 i++;
-            }else{
+            }else
+            {
                 count--;
                 j++;
             }
@@ -28,4 +25,6 @@ class Solution {
         }
         return max;
     }
+    // 1 6 13
+    // 9 13 15
 }
