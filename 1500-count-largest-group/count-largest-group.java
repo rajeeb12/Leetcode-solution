@@ -14,7 +14,7 @@ class Solution {
             max = Math.max(max, temp[sum]);
         }
         int count = 0;
-        for(int i = 0; i < 10000001; i++){
+        for(int i = 0; i < 38; i++){
             if(max == temp[i]) count++;
         }
         return count;
