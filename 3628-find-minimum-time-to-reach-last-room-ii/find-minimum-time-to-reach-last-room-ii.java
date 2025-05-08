@@ -19,6 +19,10 @@ class Solution {
                 prevStep = 1;
             }
 
+            if(temp[0] == n - 1 && temp[1] == m-1){
+                return temp[2];
+            }
+
             for(int k = 0; k < 4; k++){
                 int ni = temp[0] + di[k];
                 int nj = temp[1] + dj[k];
@@ -38,6 +42,6 @@ class Solution {
                 }
             }
         }
-        return distance[n - 1][m - 1];
+        return -1;
     }
 }
