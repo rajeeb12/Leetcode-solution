@@ -14,7 +14,7 @@ class Solution {
                     temp[1] = (temp[1] + count[i]) % mod;
                 }else{
                     if(count[i] > 0){
-                        temp[i + 1] = (temp[i + 1] + count[i]) % mod;
+                        temp[i + 1] = (count[i]) % mod;
                     }
                 }
             }
