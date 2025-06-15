@@ -1,0 +1,1 @@
+<h2>maximum-product-of-first-and-last-elements-of-a-subsequence Notes</h2><hr>[ Time taken: 16 m 28 s ]
