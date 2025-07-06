@@ -2,23 +2,22 @@ class FindSumPairs {
     HashMap<Integer,Integer> map2;
     HashMap<Integer,Integer> map1;
     int n1, n2;
-    int arr[];
+    private int arr[];
     public FindSumPairs(int[] nums1, int[] nums2) {
         map2 = new HashMap<>();
         map1 = new HashMap<>();
         int index = 0;
         n2 = nums2.length;
 
-        arr = new int[n2];
+        this.arr = nums2;
         
         for(int i : nums1){
-            map1.put(i, map1.getOrDefault(i, 0 ) + 1);
+            map1.put(i, map1.getOrDefault(i, 0) + 1);
         }
         
         for(int i : nums2){
             map2.put(i, map2.getOrDefault(i ,0) + 1);
-            arr[index] = i;
-            index++;
+            
         }
     }
     
