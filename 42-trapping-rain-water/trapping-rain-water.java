@@ -1,25 +1,23 @@
 class Solution {
     public int trap(int[] height) {
-        // brute;
-        int ans = 0;
         int n = height.length;
-        int left[] = new int[n];
-        int right[] = new int[n];
-        Stack<Integer> stack = new Stack<>();
-        int lmax = 0;
-        
+        int lmax[] = new int[n];
+        int rmax[] = new int[n];
+        lmax[0] = height[0];
+        rmax[n - 1] = height[n - 1];
+
+        for(int i = 1; i < n; i++){
+            lmax[i] = Math.max(height[i], lmax[i - 1]);
+        }
+        for(int i = n - 2; i >= 0; i--){
+            rmax[i] = Math.max(height[i], rmax[i + 1]);
+        }
+        int total = 0;
         for(int i = 0; i < n; i++){
-            lmax = Math.max(lmax, height[i]);
-            left[i] = lmax;
+            if(lmax[i] > height[i] && rmax[i] > height[i]){
+                total += Math.min(lmax[i] , rmax[i]) - height[i];
+            }
         }
-        int rmax = 0;
-        for(int i = n - 1; i >= 0; i--){
-            rmax = Math.max(rmax, height[i]);
-            right[i] = rmax;
-        }
-        for(int i = 0; i < n; i++){
-            ans += Math.min(left[i] , right[i]) - height[i];
-        }
-        return ans;
+        return total;
     }
 }
