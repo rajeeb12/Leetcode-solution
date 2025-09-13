@@ -2,20 +2,18 @@ class Solution {
     int dp[];
     public int rob(int[] nums) {
         int n = nums.length;
+        if(n == 1) return nums[0];
+        
         dp = new int[n + 1];
-        Arrays.fill(dp, -1);
-        return solve(n - 1, nums);
-    }
-    public int solve(int index, int nums[]){
-        if(index < 0) return 0;
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
 
-        if(dp[index] != -1) return dp[index];
-
-        int notPick = solve(index - 1, nums);
-        int pick = 0;
-        if(index >= 0){
-            pick = nums[index] + solve(index - 2, nums);
+        for(int index = 2; index < n ; index++){
+            int notPick = dp[index - 1];
+            int pick = nums[index] + dp[index - 2];
+            dp[index] = Math.max(notPick, pick);
         }
-        return dp[index] = Math.max(notPick, pick);
+        return dp[n - 1];
     }
+    
 }
