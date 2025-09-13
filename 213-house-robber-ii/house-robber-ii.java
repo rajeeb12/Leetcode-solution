@@ -1,30 +1,29 @@
 class Solution {
-    int dp[];
     public int rob(int[] nums) {
         int n = nums.length;
-        dp = new int[n + 1];
-        Arrays.fill(dp, -1);
-
         if(n == 1) return nums[0];
-        if(n == 2) return Math.max(nums[0], nums[1]);
+        if(n == 2) return Math.max(nums[0] , nums[1]);
 
-        int one = helper(nums, 0, n - 2);
-        Arrays.fill(dp, -1);
+        List<Integer> arr = new ArrayList<>();
+        List<Integer> brr = new ArrayList<>();
 
-        int two = helper(nums, 1, n - 1);
-
-        return Math.max(one , two);
+        for(int i = 0; i < n; i++){
+            if(i != 0) brr.add(nums[i]);
+            if(i != n - 1) arr.add(nums[i]);
+        }
+        return Math.max(solve(n - 1, arr), solve(n - 1, brr));
     }
-    public int helper(int[] nums, int end, int start)
+    public int solve(int n, List<Integer> arr)
     {
-        if(start < end) return 0;
-        if(start == end) return nums[start];
+        int prev1 = Math.max(arr.get(0) , arr.get(1)), prev2 = arr.get(0);
 
-        if(dp[start] != -1) return dp[start];
-        
-        int notPick = helper(nums, end, start - 1);
-        int pick = nums[start] + helper(nums, end, start - 2);
-
-        return dp[start] = Math.max(notPick , pick); 
+        for(int i = 2; i < n; i++){
+            int notPick = prev1;
+            int pick = arr.get(i) + prev2;
+            int cur = Math.max(notPick, pick);
+            prev2 = prev1;
+            prev1 = cur;
+        }  
+        return prev1;
     }
 }
