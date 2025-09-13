@@ -1,19 +1,21 @@
 class Solution {
+    int dp[];
     public int rob(int[] nums) {
         int n = nums.length;
-        int dp[] = new int[n + 1];
-        if(n == 2) return Math.max(nums[0], nums[1]);
+        dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+        return solve(n - 1, nums);
+    }
+    public int solve(int index, int nums[]){
+        if(index < 0) return 0;
 
-        dp[0] = nums[0];
+        if(dp[index] != -1) return dp[index];
 
-        for(int index = 1; index < n; index++){
-            int rob = nums[index], skip = 0;
-            if(index > 1) rob += dp[index - 2];
-            skip = dp[index - 1];
-
-            dp[index] = Math.max(rob, skip);
+        int notPick = solve(index - 1, nums);
+        int pick = 0;
+        if(index >= 0){
+            pick = nums[index] + solve(index - 2, nums);
         }
-        
-        return dp[n - 1];
+        return dp[index] = Math.max(notPick, pick);
     }
 }
