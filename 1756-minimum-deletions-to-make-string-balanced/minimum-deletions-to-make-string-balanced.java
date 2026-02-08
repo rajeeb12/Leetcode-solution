@@ -1,15 +1,20 @@
 class Solution {
     public int minimumDeletions(String s) {
-        Stack<Character> st = new Stack<>();
-        int count = 0;
-        for(char c: s.toCharArray()){
-            if(!st.isEmpty() && c == 'a' && st.peek() == 'b'){
-                st.pop();
-                count++;
-            }else{
-                st.add(c);
-            }
+        int n = s.length();
+        int map[][] = new int[2][n], countB = 0, countA = 0;
+
+        for(int i = 0; i < n; i++){
+            map[0][i] = countB;
+            map[1][n - i - 1] = countA;
+            countB += (s.charAt(i) == 'b' ? 1 : 0);
+            countA += (s.charAt(n - i - 1) == 'a' ? 1 : 0);
         }
-        return count;
+        
+        int result = (int)1e9;
+        for(int i = 0; i < n; i++){
+            result =  Math.min(map[0][i] + map[1][i], result);
+        }
+        return result;
+
     }
 }
