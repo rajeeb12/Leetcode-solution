@@ -18,15 +18,16 @@ class Solution {
         solve(root);
         return root;
     }
-    public void solve(TreeNode root)
-    {
-        if(root == null) return;
+    public TreeNode solve(TreeNode node){
+        if(node == null) return node;
 
-        solve(root.left);
-        solve(root.right);
+        TreeNode left = solve(node.left);
+        TreeNode right = solve(node.right);
 
-        TreeNode temp = root.left;
-        root.left = root.right;
-        root.right = temp;
+        TreeNode temp = left;
+        node.left = right;
+        node.right = left;
+
+        return node; 
     }
 }
