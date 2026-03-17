@@ -1,23 +1,30 @@
 class Solution {
     public int largestSubmatrix(int[][] matrix) {
-        int m = matrix.length;
-        int n = matrix[0].length;
+        int rows = matrix.length, columns = matrix[0].length;
+        int height[] = new int[columns];
         int ans = 0;
-        
-        for (int row = 0; row < m; row++) {
-            for (int col = 0; col < n; col++) {
-                if (matrix[row][col] != 0 && row > 0) {
-                    matrix[row][col] += matrix[row - 1][col];
+
+        for(int row = 0; row < rows; row++)
+        {
+            for(int j = 0; j < columns; j++){
+                if(matrix[row][j] == 1){
+                    height[j] += 1;
+                }else{
+                    height[j] = 0;
                 }
             }
-            
-            int[] currRow = matrix[row].clone();
-            Arrays.sort(currRow);
-            for (int i = 0; i < n; i++) {
-                ans = Math.max(ans, currRow[i] * (n - i));
+
+            int temp[] = new int[columns];
+            for(int i = 0; i < columns; i++){
+                temp[i] = height[i];
+            }
+            // sort pillar
+            Arrays.sort(temp);
+
+            for(int j = 0; j < columns; j++){
+                ans = Math.max(ans, temp[j] * (columns - j));
             }
         }
-        
         return ans;
     }
 }
