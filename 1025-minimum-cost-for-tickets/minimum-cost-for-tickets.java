@@ -2,8 +2,25 @@ class Solution {
     int dp[];
     public int mincostTickets(int[] days, int[] costs) {
         dp = new int[days.length + 1];
-        Arrays.fill(dp, -1);
-        return solve(0, days, costs);
+        
+        for(int index = days.length - 1; index >= 0 ; index--){
+            int one = costs[0] + dp[index + 1];
+            int maxDaysForSevenDaysPass = days[index] + 7;
+            int j = index;
+            while(j < days.length && days[j] < maxDaysForSevenDaysPass){
+                j++;
+            }
+            int seven = costs[1] + dp[j];
+            int maxDaysForThirtyDaysPass = days[index] + 30;
+            j = index;
+            while(j < days.length && days[j] < maxDaysForThirtyDaysPass){
+                j++;
+            }
+            int thirty = costs[2] + dp[j];
+
+            dp[index] = Math.min(one, Math.min(seven, thirty));
+        }
+        return dp[0];
     }
     public int solve(int index,int days[],int costs[]){
         if(index >= days.length) return 0;
