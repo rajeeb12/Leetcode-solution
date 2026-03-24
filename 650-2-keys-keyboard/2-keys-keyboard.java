@@ -1,25 +1,22 @@
 class Solution {
-    int dp[][];
+    int dp[];
     public int minSteps(int n) {
+        dp = new int[n  + 1];
+        Arrays.fill(dp, -1);
+        return solve(n);
+    }
+    public int solve(int n){
         if(n == 1) return 0;
-        dp = new int[1001][1001];
-        
-        for(int i[]: dp) Arrays.fill(i, -1);
 
-        return solve(1, 1,n) + 1;
-    }
-    public int solve(int board,int clipboard,int n)
-    {
-        if(board > n) return (int)1e9;
-        if(board == n){
-            return 0;
+        if(dp[n] != -1) return dp[n];
+
+        int res = n;
+        for(int i = n / 2; i >= 1; i--){
+            if(n % i == 0){
+                res = Math.min(res, 1 + solve(i) + (n / i) - 1);
+                break;
+            }
         }
-        if(dp[board][clipboard] != -1) return dp[board][clipboard];
-        
-        int copy = 1 + 1 + solve(board + board, board, n);
-        int paste = 1 + solve(board + clipboard, clipboard, n);
-
-        return dp[board][clipboard] = Math.min(copy , paste); 
+        return dp[n] = res;
     }
-    
 }
