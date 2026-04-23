@@ -2,40 +2,33 @@ class Solution {
     public String decodeString(String s) {
         Stack<Character> st = new Stack<>();
 
-        for(char ch: s.toCharArray())
-        {
-            if(ch == ']')
-            {
+        for(char c: s.toCharArray()){
+            if(c != ']'){
+                st.add(c);
+            }else{
                 String substr = "";
-                while(!st.isEmpty() && st.peek() != '[')
-                {
+                while(!st.isEmpty() && st.peek() != '['){
                     substr = st.pop() + substr;
                 }
                 st.pop();
-                String k ="";
-                while(!st.isEmpty() && Character.isDigit(st.peek()))
-                {
-                    k = st.pop() + k;
+                String num = "";
+                while(!st.isEmpty() && Character.isDigit(st.peek())){
+                    num = st.pop() + num;
                 }
-                int count = Integer.valueOf(k);
-                while(count-- > 0)
-                {
-                    for(char ch1: substr.toCharArray())
-                    {
-                        st.add(ch1);
-                    }
+                
+                String finalStr = "";
+                for(int i = 0; i < Integer.parseInt(num); i++){
+                    finalStr += substr; 
+                }
+                for(char ch: finalStr.toCharArray()){
+                    st.add(ch);
                 }
             }
-            else
-            {
-                st.add(ch);
-            }
         }
-        String ans ="";
-        while(!st.isEmpty())
-        {
-            ans = st.pop() + ans;
+        StringBuilder ans = new StringBuilder("");
+        while(!st.isEmpty()){
+            ans.append(st.pop());
         }
-        return ans;
+        return ans.reverse().toString();
     }
 }
