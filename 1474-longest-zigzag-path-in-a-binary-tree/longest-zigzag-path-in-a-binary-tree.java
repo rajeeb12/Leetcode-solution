@@ -14,24 +14,17 @@
  * }
  */
 class Solution {
-    int maxPath = 0 ;
+    int max = 0;
     public int longestZigZag(TreeNode root) {
         if(root == null) return 0;
-
-        solve(root, 0 , false);
-        solve(root, 0, true);
-        return maxPath;
+        solve(root, 0 , 0);
+        return max;
     }
-    public void solve(TreeNode root,int steps,boolean goLeft){
+    public void solve(TreeNode root, int left, int right){
         if(root == null) return;
-         
-        maxPath = Math.max(maxPath, steps);
-        if(goLeft){
-            solve(root.left, steps + 1, false);
-            solve(root.right, 1 , true);
-        }else{
-            solve(root.right, steps + 1, true);
-            solve(root.left, 1, false);
-        }
+
+        max = Math.max(max, Math.max(left, right));
+        solve(root.left, right + 1, 0);
+        solve(root.right, 0, left + 1);
     }
 }
