@@ -15,56 +15,45 @@
  */
 class Solution {
     public TreeNode deleteNode(TreeNode root, int key) {
-        if(root == null) return null;
-        if(root.val == key)
-        {
+        if(root == null) return root;
+
+        if(root.val == key){
             return helper(root);
         }
-        TreeNode cur = root;
-        while(cur != null)
-        {
-            if(cur.val > key)
-            {
-                if(cur.left != null && cur.left.val == key)
-                {
-                    cur.left = helper(cur.left);
+        TreeNode dummy = root;
+        while(root != null){
+            if(root.val > key){ // left
+                if(root.left != null && root.left.val == key){
+                    root.left = helper(root.left);
                     break;
                 }else{
-                    cur = cur.left;
+                    root = root.left;
                 }
-            }else{
-                if(cur.right != null && cur.right.val == key)
-                {
-                    cur.right = helper(cur.right);
+            }else{ // right
+                if(root.right != null && root.right.val == key){
+                    root.right = helper(root.right);
                     break;
                 }else{
-                    cur= cur.right;
+                    root = root.right;
                 }
             }
         }
-        return root;
+        return dummy;
     }
-    public TreeNode helper(TreeNode root)
-    {
-        if(root.left == null)
-        {
+    public TreeNode helper(TreeNode root){
+        if(root.left == null){
             return root.right;
-        }else if(root.right ==null)
-        {
+        }else if(root.right == null){
             return root.left;
         }
-
         TreeNode rightChild = root.right;
-        TreeNode lastLeftsRightChild = find(root.left);
-        lastLeftsRightChild.right = rightChild; 
+        TreeNode leftLastChild = findLastChild(root.left);
+        leftLastChild.right = rightChild;
         return root.left;
     }
-    public TreeNode find(TreeNode node)
-    {
-        while(node.right != null)
-        {
-            node = node.right;
-        }
+    public TreeNode findLastChild(TreeNode node){
+        while(node.right != null) node = node.right;
+
         return node;
     }
 }
