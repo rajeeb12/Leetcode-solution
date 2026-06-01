@@ -1,66 +1,61 @@
 class Pair{
     String v;
     double value;
-    public Pair(String _v,double _value)
-    {
+    public Pair(String _v,double _value){
         this.v = _v;
         this.value = _value;
     }
-
 }
 class Solution {
+    double ans[];
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-        HashMap<String, ArrayList<Pair>> adj = new HashMap<>();
-        int n = values.length;
-        for(int i = 0; i < n; i++)
-        {
-            List<String> arr = equations.get(i);
-            String value1 = arr.get(0);
-            String value2 = arr.get(1);
-            adj.putIfAbsent(value1 , new ArrayList<>());
-            adj.putIfAbsent(value2 , new ArrayList<>());
-
-            adj.get(value1).add(new Pair(value2, values[i]));
-            adj.get(value2).add(new Pair(value1, 1.0 / values[i]));
+        ans = new double[queries.size()];
+        Arrays.fill(ans, -1);
+        HashMap<String,List<Pair>> map = new HashMap<>();
+        for(int i = 0; i < equations.size(); i++){
+            List<String> eq = equations.get(i);
+            String u = eq.get(0);
+            String v = eq.get(1);
+            double value = values[i];
+            if(!map.containsKey(u)){
+                map.put(u, new ArrayList<>());
+            }
+            if(!map.containsKey(v)){
+                map.put(v, new ArrayList<>());
+            }
+            map.get(u).add(new Pair(v, value));
+            map.get(v).add(new Pair(u, 1 / value));
         }
-        double ans[] = new double[queries.size()];
-        for(int i = 0 ; i < queries.size(); i++)
-        {
-            List<String> q = queries.get(i);
-            String value1 = q.get(0);
-            String value2 = q.get(1);
-            if(!adj.containsKey(value1) || !adj.containsKey(value2))
-            {
+        for(int i = 0; i < queries.size(); i++){
+            List<String> query = queries.get(i);
+            String u = query.get(0);
+            String v = query.get(1);
+            if(!map.containsKey(u) || !map.containsKey(v)){
                 ans[i] = -1.0;
+                continue;
             }
-            else{
-                HashSet<String> visit = new HashSet<>();
-                double res[]= {-1.0};
-                dfs(adj, value1, value2, visit,res,1.0);
-                ans[i] = res[0];
-            }
+            dfs(u, v, map, 1.0,new HashSet<>(), i);
         }
         return ans;
     }
-    public void dfs(HashMap<String, ArrayList<Pair>> adj,String src, String dest,HashSet<String> visit,double ans[],double temp)
-    {
-        visit.add(src);
-
-        if(src.equals(dest))
-        {
-            ans[0] = temp;
+    public void dfs(String u,String dest,HashMap<String,List<Pair>> map,double prod,HashSet<String> set,int index){
+        if(dest.equals(u)){
+            ans[index] = prod;
             return;
         }
+        
+        set.add(u);
 
-        for(Pair t: adj.get(src))
-        {    
-            String node = t.v;
-            double value = t.value;
-            if(!visit.contains(node))
-            {
-                dfs(adj, node, dest,visit, ans, temp * value);
+        List<Pair> adjNodes = map.get(u);
+        
+        for(Pair pair: adjNodes){
+            String v = pair.v;
+            double value = pair.value;
+            if(!set.contains(v)){
+                dfs(v, dest, map,(double) prod * value, set,index);
             }
-            
         }
+        set.remove(u);
+
     }
 }
