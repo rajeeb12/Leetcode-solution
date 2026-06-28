@@ -11,11 +11,12 @@ class Solution {
             }
             return;
         }
-        if(cnum > 9) return;
-
-        list.add(cnum);
-        solve(cnum + 1, k - 1, target - cnum, list, ans);
-        list.remove(list.size() - 1);
-        solve(cnum + 1, k , target, list, ans);
+        
+        for(int i = cnum; i < 10; i++){
+            if(i > target || k <= 0) break;
+            list.add(i);
+            solve(i + 1, k - 1, target - i, list, ans);
+            list.remove(list.size() - 1);
+        }
     }
 }
