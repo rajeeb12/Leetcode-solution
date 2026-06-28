@@ -3,8 +3,17 @@ class Solution {
     public int rob(int[] nums) {
         int n = nums.length;
         dp = new int[n + 1];
-        Arrays.fill(dp, -1);
-        return solve(0, nums);
+        if(n == 0) return 0;
+        if(n == 1) return nums[0];
+        
+        dp[n - 1] = nums[n - 1];
+        dp[n - 2] = nums[n - 2];
+        for(int index = n - 2; index >= 0; index--){
+            int pick = nums[index] + dp[index + 2];
+            int notPick = dp[index + 1];
+            dp[index] = Math.max(pick, notPick);        
+        }
+        return dp[0];
     }
     public int solve(int index, int nums[]){
         if(index >= nums.length) return 0;
