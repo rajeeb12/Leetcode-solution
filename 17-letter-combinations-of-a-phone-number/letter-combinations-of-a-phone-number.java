@@ -1,30 +1,28 @@
 class Solution {
     public List<String> letterCombinations(String digits) {
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(2, "abc");
+        map.put(3, "def");
+        map.put(4, "ghi");
+        map.put(5, "jkl");
+        map.put(6, "mno");
+        map.put(7, "pqrs");
+        map.put(8, "tuv");
+        map.put(9, "wxyz");
+
         List<String> ans = new ArrayList<>();
-
-        if(digits.length() == 0) return ans;
-        
-        String[] arr = {"","","abc","def", "ghi","jkl","mno","pqrs","tuv","wxyz"};
-
-        StringBuilder sb = new StringBuilder("");
-        
-        solve(0,digits,arr,sb, ans);
-
+        solve(0, "", digits, ans, map);
         return ans;
     }
-    public void solve(int index,String digit, String[] arr, StringBuilder sb,List<String> ans)
-    {
-        if(index == digit.length())
-        {
-            ans.add(sb.toString());
+    public void solve(int index, String word, String digits, List<String> ans,HashMap<Integer,String> map){
+        if(index == digits.length()){
+            ans.add(word);
             return;
         }
-        String str = arr[digit.charAt(index) - '0'];
-        for(int i= 0 ; i < str.length(); i++)
-        {
-            sb.append(str.charAt(i));
-            solve(index + 1, digit, arr, sb, ans);
-            sb.delete(sb.length() - 1, sb.length());
+        int value = digits.charAt(index) - '0';
+        String text = map.get(value);
+        for(int i = 0; i < text.length(); i++){
+            solve(index + 1, word + text.charAt(i), digits, ans, map);
         }
     }
 }
