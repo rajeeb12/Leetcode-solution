@@ -3,9 +3,21 @@ class Solution {
     public int maxProfit(int[] prices, int fee) {
         int n = prices.length;
         dp = new int[n + 1][2];
-        for(int r[]: dp) Arrays.fill(r, -1);
+        
+        for(int i = n - 1; i >= 0; i--){
+            for(int k = 1; k >= 0; k--){
+                int ans = 0;
 
-        return solve(0,prices, fee, 0);
+                if(k == 0){
+                    ans += Math.max(dp[i + 1][1 - k] - prices[i], dp[i + 1][k]);  
+                }else{
+                    ans += Math.max((prices[i] - fee) + dp[i + 1][1 - k], dp[i + 1][k]);
+                }
+                dp[i][k] = ans;
+            }
+        }
+
+        return dp[0][0];
     }
     public int solve(int i,int prices[],int fee,int k){
         if(i >= prices.length) return 0;
