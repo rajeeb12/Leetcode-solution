@@ -4,29 +4,22 @@ class Solution {
         int n = text1.length();
         int m = text2.length();
         dp = new int[n + 1][m + 1];
-        for(int i[]: dp) Arrays.fill(i, -1);
-
-        int ans = 0;
-        for(int i = n - 1; i >=0 ; i--){
-            for(int j = m - 1; j >= 0; j--){
-                ans = Math.max(ans, solve(i,j, text1 , text2));
-            }
-        }
-        return ans;
-    }
-    public int solve(int i,int j,String s1,String s2){
-        if(i < 0 || j < 0) return 0;
         
+        for(int r[]: dp) Arrays.fill(r, -1);
+
+        return solve(0,0,text1, text2);
+    }
+    public int solve(int i,int j,String t1, String t2){
+        if(i >= t1.length() || j >= t2.length()) return 0;
+
         if(dp[i][j] != -1) return dp[i][j];
-    
         int ans = 0;
-        if(s1.charAt(i) == s2.charAt(j)){
-            ans = 1 + solve(i - 1, j - 1, s1, s2); 
+        if(t1.charAt(i) == t2.charAt(j)){
+            ans = 1 + solve(i + 1, j + 1, t1, t2);
         }else{
-            int a = solve(i - 1, j, s1 ,s2);
-            int b = solve(i , j - 1, s1, s2);
-            ans = Math.max(ans, Math.max(a, b));
+            ans = Math.max(solve(i + 1,j, t1, t2) , solve(i, j + 1, t1, t2));
         }
+
         return dp[i][j] = ans;
     }
 }
