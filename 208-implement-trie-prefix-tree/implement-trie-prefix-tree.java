@@ -1,31 +1,9 @@
 class Node{
-    Node[] link;
-    boolean flag;
-    public Node()
-    {
-        link = new Node[26];
-        flag = false;
-    }
-
-    public void put(char ch, Node node)
-    {
-        link[ch - 'a'] = node;
-    }
-    public boolean containsKey(char ch)
-    {
-        return (link[ch-'a'] != null);
-    } 
-    public Node get(char ch)
-    {
-        return link[ch - 'a'];
-    }
-    public void setEnd()
-    {
-        flag = true;
-    }
-    public boolean isEnd()
-    {
-        return flag;
+    Node arr[];
+    boolean isEndingWord;
+    public Node(){
+        arr = new Node[26];
+        isEndingWord = false;
     }
 }
 class Trie {
@@ -35,43 +13,30 @@ class Trie {
     }
     
     public void insert(String word) {
-        Node node = root;
-        for(int i = 0 ; i <  word.length() ; i++)
-        {
-            char ch = word.charAt(i);
-            if(!node.containsKey(ch))
-            {
-                node.put(ch, new Node());
-            }
-            node = node.get(ch);
+        Node curr = root;
+
+        for(char c: word.toCharArray()){
+            if(curr.arr[c-'a'] == null) curr.arr[c-'a'] = new Node();
+            curr = curr.arr[c-'a'];
         }
-        node.setEnd();
+        curr.isEndingWord = true;
     }
     
     public boolean search(String word) {
-        Node node = root;
-        for(int i = 0; i < word.length(); i++)
-        {
-            char ch = word.charAt(i);
-            if(!node.containsKey(ch))
-            {
-                return false;
-            }
-            node = node.get(ch);
+        Node curr = root;
+        for(char c: word.toCharArray()){
+            if(curr.arr[c-'a'] == null) return false;
+            curr = curr.arr[c-'a'];
         }
-        return (node.isEnd() ? true : false);
+        if(curr.isEndingWord) return true;
+        return false;
     }
     
     public boolean startsWith(String prefix) {
-        Node node = root;
-        for(int i = 0 ; i < prefix.length(); i++)
-        {
-            char ch = prefix.charAt(i);
-            if(!node.containsKey(ch))
-            {
-                return false;
-            }
-            node = node.get(ch);
+        Node curr = root;
+        for(char c: prefix.toCharArray()){
+            if(curr.arr[c-'a'] == null) return false;
+            curr = curr.arr[c-'a'];
         }
         return true;
     }
